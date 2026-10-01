@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Bus Tracking — TransitGo</title>
+  <meta name="description" content="Track PMPML buses in real-time on an interactive map. See live bus locations, ETAs, and crowd levels across Pune." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <!-- Leaflet.js — free map library, no API key needed -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/map.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body class="map-page">
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgM)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgM" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/>
+                <stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html" class="nav-active">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta">Book Ticket</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- ─── MAIN LAYOUT ─────────────────────────────────────── -->
+  <div class="track-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="track-sidebar" id="sidebar">
+
+      <!-- Sidebar Header -->
+      <div class="sb-header">
+        <div class="sb-title-row">
+          <div>
+            <div class="sb-live-chip">
+              <span class="live-dot"></span> LIVE
+            </div>
+            <h1 class="sb-title">Pune Bus Tracker</h1>
+          </div>
+          <button class="sb-collapse-btn" id="collapse-btn" title="Collapse sidebar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <p class="sb-sub">Tracking <span id="bus-count">8</span> PMPML buses in real-time</p>
+
+        <!-- Search inside map -->
+        <div class="sb-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#888"/>
+          </svg>
+          <input type="text" id="route-filter" placeholder="Filter by route number..." />
+        </div>
+      </div>
+
+      <!-- Bus List -->
+      <div class="sb-bus-list" id="bus-list">
+        <!-- Populated by map.js -->
+      </div>
+
+      <!-- Alert Banner -->
+      <div class="sb-alert" id="sb-alert" style="display:none">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-text">
+          <div class="alert-title" id="alert-title">Delay Alert</div>
+          <div class="alert-body" id="alert-body">Route 15 delayed by 8 min</div>
+        </div>
+        <button class="alert-close" onclick="document.getElementById('sb-alert').style.display='none'">✕</button>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sb-footer">
+        <a href="route-search.html" class="sb-footer-btn">🔍 Search Routes</a>
+        <a href="timetable.html" class="sb-footer-btn">📅 Timetable</a>
+      </div>
+    </aside>
+
+    <!-- MAP AREA -->
+    <div class="map-wrapper">
+
+      <!-- Map Controls Overlay -->
+      <div class="map-controls">
+        <button class="mc-btn" id="my-loc-btn" title="Go to my location (Pune centre)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="currentColor"/>
+          </svg>
+        </button>
+        <button class="mc-btn" id="zoom-in-btn" title="Zoom in">＋</button>
+        <button class="mc-btn" id="zoom-out-btn" title="Zoom out">－</button>
+      </div>
+
+      <!-- Map Stats Bar -->
+      <div class="map-stats-bar">
+        <div class="msb-item">
+          <span class="msb-dot dot-green"></span>
+          <span id="stat-on-time">6 On Time</span>
+        </div>
+        <div class="msb-sep"></div>
+        <div class="msb-item">
+          <span class="msb-dot dot-yellow"></span>
+          <span id="stat-delayed">1 Delayed</span>
+        </div>
+        <div class="msb-sep"></div>
+        <div class="msb-item">
+          <span class="msb-dot dot-red"></span>
+          <span id="stat-crowded">3 Crowded</span>
+        </div>
+        <div class="msb-sep"></div>
+        <div class="msb-item">
+          <span>🕐</span>
+          <span id="last-updated">Updated just now</span>
+        </div>
+      </div>
+
+      <!-- The actual Leaflet map -->
+      <div id="map-container"></div>
+
+      <!-- Mobile toggle -->
+      <button class="mobile-sidebar-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()">
+        🚌 Buses
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── BUS POPUP TEMPLATE (used by map.js) ─────────────── -->
+  <template id="popup-template">
+    <div class="bus-popup">
+      <div class="bp-header">
+        <div class="bp-badge" id="bp-badge">15</div>
+        <div class="bp-info">
+          <div class="bp-route" id="bp-route">Katraj → Hadapsar</div>
+          <div class="bp-status" id="bp-status">On Time</div>
+        </div>
+      </div>
+      <div class="bp-body">
+        <div class="bp-row">
+          <span class="bp-label">📍 Near</span>
+          <span class="bp-val" id="bp-near">Swargate</span>
+        </div>
+        <div class="bp-row">
+          <span class="bp-label">⏱️ Next stop</span>
+          <span class="bp-val" id="bp-eta">2 min</span>
+        </div>
+        <div class="bp-row">
+          <span class="bp-label">👥 Crowd</span>
+          <span class="bp-val" id="bp-crowd">Moderate</span>
+        </div>
+        <div class="bp-row">
+          <span class="bp-label">💰 Fare</span>
+          <span class="bp-val" id="bp-fare">₹12</span>
+        </div>
+      </div>
+      <div class="bp-actions">
+        <a class="bp-btn bp-btn-primary" id="bp-search-link" href="route-search.html">🔍 Search this route</a>
+        <a class="bp-btn bp-btn-secondary" id="bp-schedule-link" href="timetable.html">📅 Schedule</a>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/route-data.js"></script>
+  <script src="js/map.js"></script>
+  <script>
+    const hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => { const o = mm.classList.toggle('open'); hb.classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); hb.classList.remove('open'); document.body.style.overflow = ''; }));
+    const sb = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => sb.classList.toggle('visible', window.scrollY > 200));
+    sb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

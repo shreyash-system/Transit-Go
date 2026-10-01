@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Ticket — TransitGo</title>
+  <meta name="description" content="Book your PMPML bus ticket online. Fast, secure digital ticketing for Pune commuters." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/booking.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgBK)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgBK" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta nav-active">Book Ticket</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- ─── HERO ─────────────────────────────────────────────── -->
+  <section class="bk-hero">
+    <div class="bk-orb bk-orb1"></div>
+    <div class="bk-orb bk-orb2"></div>
+    <div class="bk-hero-content">
+      <div class="bk-badge">
+        <span class="badge-dot"></span>
+        Secure · Instant · Paperless
+      </div>
+      <h1>Book Your <span class="gradient-text">Ticket</span></h1>
+      <p>Digital PMPML bus ticket. Pay with UPI or card. Show QR at boarding — no paper needed.</p>
+    </div>
+  </section>
+
+  <!-- ─── PROGRESS STEPPER ─────────────────────────────────── -->
+  <div style="padding: 0 32px; max-width: 860px; margin: 0 auto 8px;">
+    <div class="bk-progress">
+      <div class="bk-step" id="step-dot-1">
+        <div class="bk-step-dot">1</div>
+        <div class="bk-step-label">Journey</div>
+      </div>
+      <div class="bk-step" id="step-dot-2">
+        <div class="bk-step-dot">2</div>
+        <div class="bk-step-label">Passenger</div>
+      </div>
+      <div class="bk-step" id="step-dot-3">
+        <div class="bk-step-dot">3</div>
+        <div class="bk-step-label">Payment</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MAIN CONTENT ─────────────────────────────────────── -->
+  <section class="bk-section">
+    <div class="bk-container">
+
+      <!-- LEFT: Steps Panel -->
+      <div>
+
+        <!-- ── STEP 1: Journey Details ── -->
+        <div class="step-panel bk-panel" id="step-panel-1">
+          <div class="bk-panel-header">
+            <div class="bk-panel-icon">🗓️</div>
+            <div>
+              <div class="bk-panel-title">Journey Details</div>
+              <div class="bk-panel-sub">Select your travel date, time and passengers</div>
+            </div>
+          </div>
+          <div class="bk-panel-body">
+            <div class="form-grid">
+              <!-- From Stop -->
+              <div class="form-group">
+                <label class="form-label" for="from-stop">From</label>
+                <input class="form-input" type="text" id="from-stop" readonly />
+              </div>
+              <!-- To Stop -->
+              <div class="form-group">
+                <label class="form-label" for="to-stop">To</label>
+                <input class="form-input" type="text" id="to-stop" readonly />
+              </div>
+              <!-- Date -->
+              <div class="form-group">
+                <label class="form-label" for="dep-date">Travel Date</label>
+                <input class="form-input" type="date" id="dep-date" />
+              </div>
+              <!-- Time -->
+              <div class="form-group">
+                <label class="form-label" for="dep-time">Departure Time</label>
+                <select class="form-select" id="dep-time"></select>
+              </div>
+              <!-- Passengers -->
+              <div class="form-group full">
+                <label class="form-label">Passengers</label>
+                <div class="pax-row">
+                  <div class="pax-ctrl">
+                    <button class="pax-btn" onclick="changePax(-1)">−</button>
+                    <span class="pax-num" id="pax-count">1</span>
+                    <button class="pax-btn" onclick="changePax(1)">+</button>
+                  </div>
+                  <span class="pax-hint">Max 6 tickets per booking</span>
+                </div>
+              </div>
+              <!-- Seat Type -->
+              <div class="form-group full">
+                <label class="form-label">Seat Type</label>
+                <div class="seat-chips">
+                  <button class="seat-chip" data-seat="standard" onclick="selectSeat('standard')">
+                    <span class="seat-icon">🪑</span> Standard <small style="opacity:.6;font-size:11px;">Base fare</small>
+                  </button>
+                  <button class="seat-chip" data-seat="premium" onclick="selectSeat('premium')">
+                    <span class="seat-icon">✨</span> Premium (AC) <small style="opacity:.6;font-size:11px;">1.5× fare</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="bk-nav">
+              <a href="route-search.html" class="bk-btn bk-btn-ghost">← Back to Search</a>
+              <button class="bk-btn bk-btn-primary" onclick="validateStep1()">
+                Continue → <span style="opacity:.7;font-size:12px;">Passenger Details</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 2: Passenger Details ── -->
+        <div class="step-panel bk-panel" id="step-panel-2" style="display:none">
+          <div class="bk-panel-header">
+            <div class="bk-panel-icon">👤</div>
+            <div>
+              <div class="bk-panel-title">Passenger Details</div>
+              <div class="bk-panel-sub">Your ticket confirmation will be sent to this email</div>
+            </div>
+          </div>
+          <div class="bk-panel-body">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label" for="pax-name">Full Name (as on ID)</label>
+                <input class="form-input" type="text" id="pax-name" placeholder="e.g. Shreyash Bhalerao" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pax-phone">Mobile Number</label>
+                <input class="form-input" type="tel" id="pax-phone" placeholder="10-digit mobile" maxlength="10" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pax-email">Email Address</label>
+                <input class="form-input" type="email" id="pax-email" placeholder="you@email.com" />
+              </div>
+              <div class="form-group full" style="background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.2);border-radius:12px;padding:14px;font-size:13px;color:var(--text-muted);line-height:1.6;">
+                🔒 Your information is encrypted and never shared. Ticket will be emailed and stored in the app.
+              </div>
+            </div>
+            <div class="bk-nav">
+              <button class="bk-btn bk-btn-ghost" onclick="goToStep(1)">← Back</button>
+              <button class="bk-btn bk-btn-primary" onclick="validateStep2()">
+                Continue → <span style="opacity:.7;font-size:12px;">Payment</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: Payment ── -->
+        <div class="step-panel bk-panel" id="step-panel-3" style="display:none">
+          <div class="bk-panel-header">
+            <div class="bk-panel-icon">💳</div>
+            <div>
+              <div class="bk-panel-title">Secure Payment</div>
+              <div class="bk-panel-sub">Choose your preferred payment method</div>
+            </div>
+          </div>
+          <div class="bk-panel-body">
+
+            <!-- Payment method selector -->
+            <div class="payment-methods">
+              <div class="pay-method pay-sel" data-method="upi" onclick="selectPayMethod('upi')">
+                <span class="pay-method-icon">📲</span>
+                <div>
+                  <div class="pay-method-name">UPI</div>
+                  <div class="pay-method-sub">GPay, PhonePe, Paytm</div>
+                </div>
+                <span class="pay-radio"></span>
+              </div>
+              <div class="pay-method" data-method="card" onclick="selectPayMethod('card')">
+                <span class="pay-method-icon">💳</span>
+                <div>
+                  <div class="pay-method-name">Debit / Credit Card</div>
+                  <div class="pay-method-sub">Visa, Mastercard, RuPay</div>
+                </div>
+                <span class="pay-radio"></span>
+              </div>
+              <div class="pay-method" data-method="netbanking" onclick="selectPayMethod('netbanking')">
+                <span class="pay-method-icon">🏦</span>
+                <div>
+                  <div class="pay-method-name">Net Banking</div>
+                  <div class="pay-method-sub">All Indian banks</div>
+                </div>
+                <span class="pay-radio"></span>
+              </div>
+              <div class="pay-method" data-method="wallet" onclick="selectPayMethod('wallet')">
+                <span class="pay-method-icon">👛</span>
+                <div>
+                  <div class="pay-method-name">TransitGo Wallet</div>
+                  <div class="pay-method-sub">Balance: ₹240</div>
+                </div>
+                <span class="pay-radio"></span>
+              </div>
+            </div>
+
+            <!-- UPI ID input (shows for UPI) -->
+            <div class="upi-input-wrap" id="upi-wrap">
+              <input class="upi-input" type="text" id="upi-id" placeholder="Enter UPI ID (e.g. shreyash@okaxis)" />
+              <button class="upi-verify-btn" onclick="document.getElementById('upi-id').style.borderColor='#43e97b'">Verify</button>
+            </div>
+
+            <!-- Card details (shows for card) -->
+            <div class="card-details" id="card-wrap">
+              <div class="form-group">
+                <label class="form-label">Card Number</label>
+                <input class="form-input" type="text" placeholder="1234 5678 9012 3456" maxlength="19"
+                  oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()" />
+              </div>
+              <div class="card-row">
+                <div class="form-group">
+                  <label class="form-label">Expiry</label>
+                  <input class="form-input" type="text" placeholder="MM / YY" maxlength="7" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input class="form-input" type="password" placeholder="•••" maxlength="4" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Pay button -->
+            <div class="pay-btn-wrap">
+              <button class="pay-now-btn" id="pay-now-btn" onclick="doPayment()">
+                🔒 Pay <span id="pay-amount">₹—</span> Securely
+              </button>
+            </div>
+
+            <!-- Security row -->
+            <div class="security-row">
+              <span class="sec-badge">🔒 256-bit SSL</span>
+              <span class="sec-badge">✅ RBI Compliant</span>
+              <span class="sec-badge">🛡️ PCI DSS</span>
+              <span class="sec-badge">↩️ Instant Refund</span>
+            </div>
+
+            <div class="bk-nav" style="margin-top:18px;">
+              <button class="bk-btn bk-btn-ghost" onclick="goToStep(2)">← Back</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Journey Summary -->
+      <div class="journey-card">
+        <div class="jc-title">Your Journey</div>
+        <div class="jc-route-badge">
+          <div class="jc-badge" id="jc-badge">🚌15</div>
+          <div>
+            <div class="jc-route-name" id="jc-route-name">Route 15</div>
+            <div class="jc-route-sub" id="jc-route-sub">Katraj → Hadapsar</div>
+          </div>
+        </div>
+        <div class="jc-divider"></div>
+        <div class="jc-row"><span class="jc-label">📅 Date</span><span class="jc-val" id="jc-date">—</span></div>
+        <div class="jc-row"><span class="jc-label">🕐 Time</span><span class="jc-val" id="jc-time">—</span></div>
+        <div class="jc-row"><span class="jc-label">👥 Passengers</span><span class="jc-val" id="jc-pax">1</span></div>
+        <div class="jc-row"><span class="jc-label">🪑 Seat</span><span class="jc-val" id="jc-seat">Standard</span></div>
+        <div class="jc-price-row">
+          <span class="jc-price-label">Total</span>
+          <span class="jc-price-val" id="jc-fare">₹12</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#lgFBK)"/>
+              <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="lgFBK" x1="0" y1="0" x2="28" y2="28">
+                  <stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">TransitGo</span>
+        </div>
+        <p>Making public transport smarter for every commuter in Pune.</p>
+      </div>
+      <div class="footer-tags">
+        <div class="footer-tag">DTPLM Course Project</div>
+        <div class="footer-tag">VIT · CSAI-A · Batch 2</div>
+        <div class="footer-tag">2025-26</div>
+      </div>
+    </div>
+    <div class="footer-bottom">Built with love by Team TransitGo · VIT DTPLM 2025</div>
+  </footer>
+
+  <script src="js/route-data.js"></script>
+  <script src="js/booking.js"></script>
+  <script>
+    // Sync pay amount with journey card
+    const obs = new MutationObserver(() => {
+      const fare = document.getElementById("jc-fare")?.textContent || "₹—";
+      const el   = document.getElementById("pay-amount");
+      if (el) el.textContent = fare;
+    });
+    obs.observe(document.getElementById("jc-fare") || document.body, { childList: true, subtree: true, characterData: true });
+    // Mobile menu
+    const hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => { const o = mm.classList.toggle('open'); hb.classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); hb.classList.remove('open'); document.body.style.overflow = ''; }));
+    const sb = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => sb.classList.toggle('visible', window.scrollY > 300));
+    sb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

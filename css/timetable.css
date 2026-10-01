@@ -1,0 +1,562 @@
+/* ============================================================
+   TRANSITGO — TIMETABLE PAGE STYLES
+   Extends style.css design system (inherits all variables)
+   ============================================================ */
+
+/* ── Timetable Hero ──────────────────────────────────────── */
+.tt-hero {
+  position: relative;
+  padding: 120px 32px 56px;
+  text-align: center;
+  overflow: hidden;
+}
+.tt-hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.tt-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+}
+.tt-orb1 {
+  width: 500px; height: 500px;
+  background: var(--primary);
+  top: -200px; left: 50%;
+  transform: translateX(-70%);
+  animation: orbFloat 9s ease-in-out infinite;
+}
+.tt-orb2 {
+  width: 350px; height: 350px;
+  background: #3ECFCF;
+  top: -120px; right: 8%;
+  animation: orbFloat 11s ease-in-out infinite reverse;
+}
+.tt-hero-content { position: relative; max-width: 680px; margin: 0 auto; }
+.tt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(108,99,255,0.12);
+  border: 1px solid rgba(108,99,255,0.3);
+  padding: 7px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  color: var(--primary-light);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.tt-hero h1 {
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+}
+.tt-hero p {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── Route Selector Section ──────────────────────────────── */
+.tt-selector-section {
+  padding: 0 32px 40px;
+}
+.tt-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Route tabs grid */
+.route-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+.route-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+.route-tab:hover {
+  border-color: var(--primary);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108,99,255,0.15);
+}
+.route-tab.tab-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(108,99,255,0.35);
+}
+.rt-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Timetable Card ──────────────────────────────────────── */
+.tt-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.tt-card.card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card Header */
+.tt-card-header {
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.tt-route-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px; height: 64px;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 900;
+  border: 2px solid;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+.tt-route-info { flex: 1; }
+.tt-route-name {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+.tt-route-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tt-route-sep { color: var(--border); }
+.tt-meta-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.tt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.tt-chip.chip-primary { background: rgba(108,99,255,0.12); border-color: rgba(108,99,255,0.3); color: var(--primary-light); }
+.tt-chip.chip-green   { background: rgba(67,233,123,0.1);  border-color: rgba(67,233,123,0.3); color: #43e97b; }
+.tt-chip.chip-yellow  { background: rgba(254,225,64,0.1);  border-color: rgba(254,225,64,0.25); color: #fee140; }
+
+/* Card Body — two-column layout */
+.tt-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 0;
+}
+
+/* ── Stop Timeline (Left Panel) ──────────────────────────── */
+.tt-stops-panel {
+  padding: 28px 24px;
+  border-right: 1px solid var(--border);
+}
+.tt-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.stop-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.stop-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  opacity: 0.4;
+  border-radius: 2px;
+}
+.timeline-stop {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+  position: relative;
+}
+.timeline-stop:last-child { margin-bottom: 0; }
+.ts-dot {
+  position: absolute;
+  left: -24px;
+  top: 5px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  background: var(--bg2);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.timeline-stop:first-child .ts-dot {
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108,99,255,0.2);
+}
+.timeline-stop:last-child .ts-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(62,207,207,0.2);
+}
+.ts-info { flex: 1; min-width: 0; }
+.ts-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.ts-time-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ts-offset {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.ts-dep-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-light);
+  font-variant-numeric: tabular-nums;
+}
+.ts-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+  display: inline-block;
+}
+.ts-badge.badge-terminus { background: rgba(108,99,255,0.15); color: var(--primary-light); }
+.ts-badge.badge-end      { background: rgba(62,207,207,0.15); color: #3ECFCF; }
+
+/* ── Schedule Grid (Right Panel) ─────────────────────────── */
+.tt-schedule-panel {
+  padding: 28px 24px;
+}
+.tt-time-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.tf-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--bg3);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.tf-btn:hover { border-color: var(--primary); color: var(--text-primary); }
+.tf-btn.tf-active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* Now indicator */
+.now-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.now-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #43e97b;
+  box-shadow: 0 0 0 3px rgba(67,233,123,0.25);
+  animation: livePulse 2s ease-in-out infinite;
+}
+.now-time {
+  font-weight: 700;
+  color: #43e97b;
+}
+
+/* Alert */
+.tt-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.tt-alert.alert-info { background: rgba(62,207,207,0.1); border: 1px solid rgba(62,207,207,0.25); color: #3ECFCF; }
+.tt-alert.alert-warn { background: rgba(254,225,64,0.1); border: 1px solid rgba(254,225,64,0.25); color: #fee140; }
+
+/* Schedule grid */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 8px;
+}
+.sched-period-label {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 10px 0 4px;
+  border-top: 1px solid var(--border);
+}
+.sched-period-label:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.sched-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg3);
+  transition: all 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+.sched-slot:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(108,99,255,0.15);
+}
+.sched-slot.slot-next {
+  border-color: var(--primary);
+  background: rgba(108,99,255,0.12);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
+}
+.sched-slot.slot-past {
+  opacity: 0.35;
+}
+.slot-time {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  font-variant-numeric: tabular-nums;
+}
+.slot-ampm {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.slot-next-tag {
+  position: absolute;
+  top: 0; right: 0;
+  background: var(--primary);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 0 8px 0 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.slot-eta-label {
+  font-size: 10px;
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+/* ── Info Strip ──────────────────────────────────────────── */
+.tt-info-strip {
+  padding: 40px 32px;
+}
+.tt-info-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.tt-info-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.2s ease;
+}
+.tt-info-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+.tt-info-icon {
+  font-size: 26px;
+  width: 50px; height: 50px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg3);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.tt-info-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.tt-info-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── CTA section ─────────────────────────────────────────── */
+.tt-cta-section {
+  padding: 0 32px 56px;
+}
+.tt-cta-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(108,99,255,0.12) 0%, rgba(62,207,207,0.08) 100%);
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 20px;
+  padding: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.tt-cta-text h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.tt-cta-text p  { font-size: 14px; color: var(--text-muted); }
+.tt-cta-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+}
+.tt-btn-primary {
+  background: var(--gradient-main);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(108,99,255,0.35);
+}
+.tt-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(108,99,255,0.45); }
+.tt-btn-secondary {
+  background: var(--bg2);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border);
+}
+.tt-btn-secondary:hover { border-color: var(--primary); transform: translateY(-2px); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tt-hero { padding: 100px 20px 40px; }
+  .tt-selector-section,
+  .tt-info-strip,
+  .tt-cta-section { padding-left: 16px; padding-right: 16px; }
+  .tt-card-header { flex-direction: column; padding: 20px; }
+  .tt-stops-panel, .tt-schedule-panel { padding: 20px; }
+  .tt-card-body { grid-template-columns: 1fr; }
+  .tt-stops-panel { border-right: none; border-bottom: 1px solid var(--border); }
+  .tt-cta-inner { flex-direction: column; text-align: center; padding: 24px; }
+  .tt-cta-btns { justify-content: center; }
+  .route-tabs { gap: 8px; }
+  .route-tab  { font-size: 12px; padding: 8px 14px; }
+}
+
+/* ── Light Mode Polish for Timetable ─────────────────────── */
+[data-theme="light"] .tt-main-card,
+[data-theme="light"] .tt-info-item,
+[data-theme="light"] .route-tab {
+  background: #FFFFFF;
+  border-color: rgba(15, 23, 42, 0.09);
+  color: #0F172A;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .route-tab:hover {
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .route-tab.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .tt-table th {
+  background: #F8FAFC;
+  color: #475569;
+}
+
+[data-theme="light"] .tt-table tr:hover td {
+  background: #F8FAFC;
+}
+
+[data-theme="light"] .tt-btn-secondary {
+  background: #F1F5F9;
+  color: #0F172A;
+  border-color: rgba(15, 23, 42, 0.12);
+}
+

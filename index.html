@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TransitGo — Smart Public Transport for Pune</title>
+  <meta name="description" content="TransitGo makes public transport smarter. Real-time bus tracking, digital ticketing, and route planning for Pune's PMPML buses." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#logoGrad)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/>
+                <stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta">Get the App</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Built for Pune &middot; PMPML Smart Transit
+        </div>
+
+        <h1 class="hero-title">
+          Your City's Buses,
+          <span class="gradient-text">Finally Smart.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          No more guessing. TransitGo gives you <strong>real-time bus tracking</strong>,
+          <strong>instant digital tickets</strong>, and <strong>live delay alerts</strong>
+          right on your phone. Travel smarter, stress less.
+        </p>
+
+        <div class="hero-actions">
+          <a href="route-search.html" class="btn-primary" id="hero-cta-primary">
+            Search Your Bus 🚌
+          </a>
+          <a href="live-track.html" class="btn-secondary" id="hero-cta-secondary">
+            🗺️ Live Map
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">50K+</span>
+            <span class="stat-label">Daily Commuters</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">120+</span>
+            <span class="stat-label">PMPML Routes</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">30s</span>
+            <span class="stat-label">Avg. Alert Time</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="app-header">
+                <div class="app-header-left">
+                  <div class="app-avatar">SB</div>
+                  <div>
+                    <div class="app-greeting">Good morning</div>
+                    <div class="app-name">Shreyash</div>
+                  </div>
+                </div>
+                <div class="app-notif">
+                  <div class="notif-dot"></div>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" fill="white"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="app-search-bar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#888"/>
+                </svg>
+                <span>Search routes, stops...</span>
+              </div>
+
+              <div class="app-map-area">
+                <div class="map-road map-h" style="top:38%;"></div>
+                <div class="map-road map-h" style="top:65%;"></div>
+                <div class="map-road map-v" style="left:28%;"></div>
+                <div class="map-road map-v" style="left:58%;"></div>
+                <div class="map-road map-v" style="left:78%;"></div>
+                <div class="bus-pin" id="bus1" style="top:34%;left:22%;">
+                  <div class="bus-emoji">&#128652;</div>
+                  <div class="bus-tag">15</div>
+                </div>
+                <div class="bus-pin" id="bus2" style="top:60%;left:52%;">
+                  <div class="bus-emoji">&#128652;</div>
+                  <div class="bus-tag" style="background:#f5576c;">72A</div>
+                </div>
+                <div class="my-loc" style="top:42%;left:42%;">
+                  <div class="my-pulse"></div>
+                  <div class="my-dot"></div>
+                </div>
+                <div class="dest-marker" style="top:25%;left:70%;">&#128205;</div>
+              </div>
+
+              <div class="nearby-section">
+                <div class="nearby-label">Nearby Buses</div>
+                <div class="bus-row">
+                  <div class="br-num">15</div>
+                  <div class="br-info">
+                    <div class="br-route">Katraj to Hadapsar</div>
+                    <div class="br-stop">Via Swargate</div>
+                  </div>
+                  <div class="br-eta">3 min</div>
+                </div>
+                <div class="bus-row">
+                  <div class="br-num" style="background:linear-gradient(135deg,#f093fb,#f5576c);">72A</div>
+                  <div class="br-info">
+                    <div class="br-route">Deccan to Kothrud</div>
+                    <div class="br-stop">Via FC Road</div>
+                  </div>
+                  <div class="br-eta">8 min</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-card fc1">
+            <span class="fc-emoji">&#127867;</span>
+            <div>
+              <div class="fc-title">Ticket Booked!</div>
+              <div class="fc-sub">Route 15 &middot; Rs.12</div>
+            </div>
+          </div>
+          <div class="float-card fc2">
+            <span class="fc-emoji">&#9889;</span>
+            <div>
+              <div class="fc-title">Bus arriving</div>
+              <div class="fc-sub">3 minutes away</div>
+            </div>
+          </div>
+          <div class="float-card fc3">
+            <span class="fc-emoji">&#128179;</span>
+            <div>
+              <div class="fc-title">UPI Payment</div>
+              <div class="fc-sub">Instant &middot; Secure</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow">&#8595;</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM SECTION -->
+  <section class="problem-section" id="problem">
+    <div class="section-container">
+      <div class="section-label">The Problem We're Solving</div>
+      <h2 class="section-title">Every Pune commuter knows this <span class="gradient-text">frustration.</span></h2>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-emoji">&#128544;</div>
+          <h3>No Live Tracking</h3>
+          <p>You have no idea where the bus actually is. You just wait and wait and wait.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-emoji">&#128336;</div>
+          <h3>Unpredictable Delays</h3>
+          <p>Bus says 9:15 AM. It comes at 9:47 AM. No updates. No alerts. Just missed class.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-emoji">&#128552;</div>
+          <h3>Overcrowded Buses</h3>
+          <p>You squeeze in hoping for space. No way to know if the next bus will be less crowded.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-emoji">&#128184;</div>
+          <h3>Paper Tickets and Cash</h3>
+          <p>Standing in line for tokens. Carrying exact change. It is 2025. Why is this still a thing?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-container">
+      <div class="section-label">How TransitGo Works</div>
+      <h2 class="section-title">Built from real <span class="gradient-text">user research.</span></h2>
+      <p class="section-sub">Every feature comes directly from interviews and empathy mapping of real PMPML commuters in Pune.</p>
+
+      <div class="steps-container">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Search Your Route</h3>
+            <p>Enter your start and destination. Get all bus options with live timing, fare, and route info in seconds.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Track in Real-Time</h3>
+            <p>See exactly where your bus is on a live map. Get a notification when it is 2 stops away so you are never late.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Book and Pay Digitally</h3>
+            <p>Reserve your seat and pay with UPI or card. No tokens, no cash, no queues. Just scan and board.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h3>Get Smart Alerts</h3>
+            <p>Instant notifications for delays, cancellations, and route changes. Know before you leave home.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="section-container">
+      <div class="section-label">Product Features</div>
+      <h2 class="section-title">Everything a commuter <span class="gradient-text">actually needs.</span></h2>
+
+      <div class="features-grid">
+        <div class="feature-card fc-large" style="cursor:pointer" onclick="location.href='live-track.html'">
+          <div class="feature-icon fi-purple">&#128205;</div>
+          <h3>Live Bus Tracking</h3>
+          <p>Real-time GPS tracking of every PMPML bus on an interactive map. Know exactly when your bus arrives.</p>
+          <div class="feature-tag ft-mvp">Core MVP · <a href="live-track.html" style="color:inherit">Open Map →</a></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-pink">&#127867;</div>
+          <h3>Digital Ticketing</h3>
+          <p>Book tickets with UPI, pay via QR. No physical tokens ever again.</p>
+          <div class="feature-tag ft-inc">Increment 3</div>
+        </div>
+        <div class="feature-card" style="cursor:pointer" onclick="location.href='route-search.html'">
+          <div class="feature-icon fi-blue">&#128269;</div>
+          <h3>Route Search</h3>
+          <p>Search any source to destination. See all bus options with estimated time and fare.</p>
+          <div class="feature-tag ft-mvp">Increment 1 · <a href="route-search.html" style="color:inherit">Try it →</a></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green">&#128276;</div>
+          <h3>Smart Alerts</h3>
+          <p>Push notifications for delays, cancellations, and schedule changes. Stay ahead always.</p>
+          <div class="feature-tag ft-inc">Increment 4</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-orange">&#128101;</div>
+          <h3>Crowd Prediction</h3>
+          <p>AI-based crowding forecast so you choose the least packed bus for your commute.</p>
+          <div class="feature-tag ft-inc">Increment 5</div>
+        </div>
+        <div class="feature-card fc-large fc-glow">
+          <div class="feature-icon fi-teal">&#127760;</div>
+          <h3>Multi-Modal Trip Planner</h3>
+          <p>Complete journey planning combining buses, transfers, and walking routes for any destination in Pune.</p>
+          <div class="feature-tag ft-soon">Coming Soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-section" id="roadmap">
+    <div class="section-container">
+      <div class="section-label">Product Roadmap</div>
+      <h2 class="section-title">Built <span class="gradient-text">incrementally.</span></h2>
+      <p class="section-sub">Following the Incremental Development Model — each version delivers real value to commuters.</p>
+
+      <div class="roadmap-track">
+        <div class="roadmap-item ri-done">
+          <div class="ri-dot rd-done"></div>
+          <div class="ri-card">
+            <div class="ri-phase">Phase 1 &middot; Now</div>
+            <h3>Route Search and Schedules</h3>
+            <p>Find your bus, see timetables, plan your journey.</p>
+            <div class="ri-badge rb-done">MVP Ready</div>
+          </div>
+        </div>
+        <div class="roadmap-item ri-current">
+          <div class="ri-dot rd-current"></div>
+          <div class="ri-card ri-card-active">
+            <div class="ri-phase">Phase 2 &middot; In Progress</div>
+            <h3>Live Vehicle Tracking</h3>
+            <p>Real-time GPS location of every PMPML bus on the map.</p>
+            <div class="ri-badge rb-active">In Development</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="ri-dot rd-plan"></div>
+          <div class="ri-card">
+            <div class="ri-phase">Phase 3</div>
+            <h3>Digital Ticketing and Payments</h3>
+            <p>UPI-based ticket booking. No cash, no queues.</p>
+            <div class="ri-badge rb-plan">Planned</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="ri-dot rd-plan"></div>
+          <div class="ri-card">
+            <div class="ri-phase">Phase 4</div>
+            <h3>Delay and Service Alerts</h3>
+            <p>Smart push notifications for real-time disruptions.</p>
+            <div class="ri-badge rb-plan">Planned</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="ri-dot rd-plan"></div>
+          <div class="ri-card">
+            <div class="ri-phase">Phase 5</div>
+            <h3>AI Crowd Prediction</h3>
+            <p>ML-powered crowding forecast for smarter travel choices.</p>
+            <div class="ri-badge rb-plan">Planned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team-section" id="team">
+    <div class="section-container">
+      <div class="section-label">The Team</div>
+      <h2 class="section-title">Students solving <span class="gradient-text">real problems.</span></h2>
+      <p class="section-sub">CSAI-A &middot; Batch 2 &middot; VIT &middot; DTPLM Course Project</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar ta-purple">SB</div>
+          <div class="team-name">Shreyash Bhalerao</div>
+          <div class="team-role">Product Lead and Research</div>
+          <div class="team-roll">Roll No. 45</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar ta-pink">S</div>
+          <div class="team-name">Sarvesh</div>
+          <div class="team-role">UX and Ideation</div>
+          <div class="team-roll">Batch 2</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar ta-blue">C</div>
+          <div class="team-name">Chetan</div>
+          <div class="team-role">Technical Architecture</div>
+          <div class="team-roll">Batch 2</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar ta-green">A</div>
+          <div class="team-name">Aditya</div>
+          <div class="team-role">Business and Strategy</div>
+          <div class="team-roll">Batch 2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="download">
+    <div class="cta-bg">
+      <div class="orb orb-c1"></div>
+      <div class="orb orb-c2"></div>
+    </div>
+    <div class="section-container">
+      <div class="cta-content">
+        <div class="cta-badge-chip">&#128652; Coming to Pune Soon</div>
+        <h2>Ready to travel smarter?</h2>
+        <p>Join the waitlist and be the first to experience TransitGo when we launch.</p>
+        <div class="cta-form">
+          <input type="email" id="email-input" placeholder="Enter your email address" class="cta-input" />
+          <button class="cta-btn" id="waitlist-btn" onclick="handleWaitlist()">Join Waitlist</button>
+        </div>
+        <div class="cta-success" id="cta-success">
+          You are on the list! We will notify you at launch.
+        </div>
+        <div class="cta-note">No spam. Just a launch notification. Promise.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#lg2)"/>
+              <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="lg2" x1="0" y1="0" x2="28" y2="28">
+                  <stop stop-color="#6C63FF"/>
+                  <stop offset="1" stop-color="#3ECFCF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">TransitGo</span>
+        </div>
+        <p>Making public transport smarter for every commuter in Pune.</p>
+      </div>
+      <div class="footer-tags">
+        <div class="footer-tag">DTPLM Course Project</div>
+        <div class="footer-tag">VIT &middot; CSAI-A &middot; Batch 2</div>
+        <div class="footer-tag">2025-26</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Built with love by Team TransitGo &middot; VIT DTPLM 2025
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    // Close menu on link click
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+        document.body.style.overflow = '';
+      });
+    });
+    // Scroll to top
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      scrollBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

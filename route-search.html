@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Your Bus — TransitGo</title>
+  <meta name="description" content="Search PMPML bus routes in Pune. Find buses by source and destination with live timings, fares, and crowd levels." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/search.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgS)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgS" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/>
+                <stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="route-search.html" class="nav-active">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta">Book Ticket</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- ─── PAGE HEADER ────────────────────────────────────── -->
+  <section class="search-hero">
+    <div class="sh-bg">
+      <div class="sh-orb sh-orb1"></div>
+      <div class="sh-orb sh-orb2"></div>
+    </div>
+    <div class="sh-content">
+      <div class="sh-badge">
+        <span class="badge-dot"></span>
+        Live PMPML Data · Pune
+      </div>
+      <h1 class="sh-title">Find Your <span class="gradient-text">Bus</span></h1>
+      <p class="sh-sub">Enter your start and destination to see all matching routes with live timings, fares, and crowd levels.</p>
+    </div>
+  </section>
+
+  <!-- ─── SEARCH PANEL ────────────────────────────────────── -->
+  <section class="search-panel-section">
+    <div class="search-container">
+
+      <!-- Search Card -->
+      <div class="search-card" id="search-card">
+
+        <div class="search-fields">
+          <!-- FROM -->
+          <div class="field-group">
+            <label class="field-label" for="from-input">
+              <span class="field-dot fd-from"></span> From
+            </label>
+            <div class="input-wrapper">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="4" fill="#3ECFCF"/>
+                  <circle cx="12" cy="12" r="8" stroke="#3ECFCF" stroke-width="1.5" stroke-opacity="0.4"/>
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="from-input"
+                class="search-input"
+                placeholder="e.g. Katraj, Swargate..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <div class="dropdown-list" id="from-dropdown"></div>
+            </div>
+          </div>
+
+          <!-- SWAP BUTTON -->
+          <button class="swap-btn" id="swap-btn" title="Swap locations">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <!-- TO -->
+          <div class="field-group">
+            <label class="field-label" for="to-input">
+              <span class="field-dot fd-to"></span> To
+            </label>
+            <div class="input-wrapper">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#6C63FF"/>
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="to-input"
+                class="search-input"
+                placeholder="e.g. Hadapsar, Kothrud..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <div class="dropdown-list" id="to-dropdown"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Button -->
+        <button class="search-btn" id="search-btn">
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+          </svg>
+          <span class="btn-text">Find Buses</span>
+        </button>
+
+      </div>
+
+      <!-- Quick Routes -->
+      <div class="quick-routes-section">
+        <div class="qr-label">Popular routes</div>
+        <div class="quick-routes-list">
+          <button class="quick-route" data-from="Katraj" data-to="Hadapsar">Katraj → Hadapsar</button>
+          <button class="quick-route" data-from="Deccan Gymkhana" data-to="Kothrud">Deccan → Kothrud</button>
+          <button class="quick-route" data-from="Shivajinagar" data-to="Swargate">Shivajinagar → Swargate</button>
+          <button class="quick-route" data-from="Wakad" data-to="Swargate">Wakad → Swargate</button>
+          <button class="quick-route" data-from="Pimpri" data-to="Swargate">Pimpri → Swargate</button>
+          <button class="quick-route" data-from="Vishrantwadi" data-to="Hadapsar">Vishrantwadi → Hadapsar</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── RESULTS ─────────────────────────────────────────── -->
+  <section class="results-section" id="results-section" style="display:none;">
+    <div class="search-container">
+
+      <div class="results-header">
+        <h2 class="results-title" id="results-count"></h2>
+        <div class="results-sort">
+          <span class="sort-label">Sort by:</span>
+          <button class="sort-btn sort-active" onclick="sortResults('time')">⏱ Fastest</button>
+          <button class="sort-btn" onclick="sortResults('fare')">💰 Cheapest</button>
+        </div>
+      </div>
+
+      <div class="results-grid" id="results-grid"></div>
+
+      <!-- No results state -->
+      <div class="no-results" id="no-results" style="display:none;">
+        <div class="nr-icon">🔍</div>
+        <h3>No direct buses found</h3>
+        <p>We couldn't find a direct route between these stops.<br>Try nearby major stops like Swargate or Shivajinagar.</p>
+        <div class="nr-suggestions">
+          <div class="nr-suggest-label">Try these nearby hubs:</div>
+          <div class="quick-routes-list">
+            <button class="quick-route" data-from="Swargate" data-to="Hadapsar">Swargate → Hadapsar</button>
+            <button class="quick-route" data-from="Shivajinagar" data-to="Kothrud">Shivajinagar → Kothrud</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── INFO STRIP ───────────────────────────────────────── -->
+  <section class="info-strip">
+    <div class="search-container">
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-icon">🚌</span>
+          <div>
+            <div class="info-title">8 PMPML Routes</div>
+            <div class="info-sub">Covering major Pune corridors</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <div>
+            <div class="info-title">30+ Stops</div>
+            <div class="info-sub">Across Pune city</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">⏱️</span>
+          <div>
+            <div class="info-title">Live Timings</div>
+            <div class="info-sub">Next departures from your stop</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">👥</span>
+          <div>
+            <div class="info-title">Crowd Levels</div>
+            <div class="info-sub">AI-predicted bus occupancy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#lgF)"/>
+              <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="lgF" x1="0" y1="0" x2="28" y2="28">
+                  <stop stop-color="#6C63FF"/>
+                  <stop offset="1" stop-color="#3ECFCF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">TransitGo</span>
+        </div>
+        <p>Making public transport smarter for every commuter in Pune.</p>
+      </div>
+      <div class="footer-tags">
+        <div class="footer-tag">DTPLM Course Project</div>
+        <div class="footer-tag">VIT · CSAI-A · Batch 2</div>
+        <div class="footer-tag">2025-26</div>
+      </div>
+    </div>
+    <div class="footer-bottom">Built with love by Team TransitGo · VIT DTPLM 2025</div>
+  </footer>
+
+  <!-- Scripts — order matters! -->
+  <script src="js/route-data.js"></script>
+  <script src="js/search.js"></script>
+  <script>
+    // Sort results helper
+    function sortResults(by) {
+      document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("sort-active"));
+      event.target.classList.add("sort-active");
+      // Re-render with sort (simplified — just re-trigger search)
+      const cards = [...document.querySelectorAll(".result-card")];
+      if (cards.length === 0) return;
+      const grid = document.getElementById("results-grid");
+      if (by === "fare") {
+        cards.sort((a, b) => {
+          const fa = parseInt(a.querySelector(".rc-meta-item:nth-child(2) span:last-child").textContent.replace("₹",""));
+          const fb = parseInt(b.querySelector(".rc-meta-item:nth-child(2) span:last-child").textContent.replace("₹",""));
+          return fa - fb;
+        });
+      } else {
+        cards.sort((a, b) => {
+          const ta = parseInt(a.querySelector(".rc-meta-item:first-child span:last-child").textContent);
+          const tb = parseInt(b.querySelector(".rc-meta-item:first-child span:last-child").textContent);
+          return ta - tb;
+        });
+      }
+      cards.forEach(c => grid.appendChild(c));
+    }
+
+    // Navbar scroll
+    window.addEventListener("scroll", () => {
+      const n = document.getElementById("navbar");
+      n.classList.toggle("scrolled", window.scrollY > 10);
+    });
+    // Hamburger
+    const hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => { const o = mm.classList.toggle('open'); hb.classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); hb.classList.remove('open'); document.body.style.overflow = ''; }));
+    // Scroll to top
+    const sb = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => sb.classList.toggle('visible', window.scrollY > 300));
+    sb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

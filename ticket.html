@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Ticket — TransitGo</title>
+  <meta name="description" content="Your TransitGo PMPML bus e-ticket. Show this QR code at boarding." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <!-- QRCode.js — free, no API key -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="js/theme.js"></script>
+  <style>
+    /* ── Ticket page exclusive styles ───────────────────────── */
+    .tk-page {
+      min-height: 100vh;
+      padding-top: 80px;
+      padding-bottom: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Success banner */
+    .tk-success-banner {
+      width: 100%;
+      max-width: 560px;
+      margin: 32px auto 0;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .tk-check-circle {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 0 12px rgba(67,233,123,0.12);
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .tk-success-title {
+      font-size: 28px; font-weight: 900; margin-bottom: 6px; letter-spacing: -0.5px;
+    }
+    .tk-success-sub {
+      font-size: 14px; color: var(--text-muted); line-height: 1.6;
+    }
+    .tk-countdown {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px; padding: 6px 14px; border-radius: 20px;
+      background: rgba(62,207,207,0.1); border: 1px solid rgba(62,207,207,0.25);
+      font-size: 13px; font-weight: 700; color: #3ECFCF;
+    }
+
+    /* 3D Boarding pass card */
+    .ticket-card {
+      width: 100%; max-width: 520px;
+      margin: 28px auto 0;
+      padding: 0 20px;
+      animation: fadeSlideUp 0.5s ease 0.2s forwards;
+      opacity: 0; transform: translateY(24px);
+      perspective: 1200px;
+    }
+    .ticket-card.tk-visible { opacity: 1; transform: translateY(0); }
+
+    .ticket-flipper {
+      position: relative;
+      width: 100%;
+      transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+    .ticket-card.is-flipped .ticket-flipper {
+      transform: rotateY(180deg);
+    }
+
+    .ticket-inner {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .ticket-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    /* Holographic security strip */
+    .tk-holo-strip {
+      background: linear-gradient(90deg, #f093fb, #43e97b, #38f9d7, #f5576c, #6c63ff, #f093fb);
+      background-size: 300% 100%;
+      animation: holoShimmer 6s linear infinite;
+      padding: 8px 16px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #0b0f19;
+      letter-spacing: 1.5px;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    @keyframes holoShimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    .tk-back-body {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+    .tk-back-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .tk-back-row strong {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .mono-hash {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      background: var(--surface2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+    }
+    .tk-barcode-wrap {
+      margin-top: auto;
+      padding: 20px 28px 24px;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .tk-barcode-lines {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+    .tk-barcode-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    /* Light mode ticket pass */
+    [data-theme="light"] .ticket-inner {
+      background: #FFFFFF;
+      border-color: rgba(15, 23, 42, 0.1);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    }
+    [data-theme="light"] .tk-qr-wrap {
+      background: #F8FAFC;
+      border-color: rgba(15, 23, 42, 0.12);
+    }
+    [data-theme="light"] .tk-btn-ghost {
+      background: #F1F5F9;
+      color: #0F172A;
+      border-color: rgba(15, 23, 42, 0.12);
+    }
+    [data-theme="light"] .tk-barcode-wrap {
+      background: #F8FAFC;
+    }
+
+    /* Route color bar */
+    .tk-color-bar {
+      height: 5px;
+      background: var(--gradient-main);
+    }
+
+    /* Header */
+    .tk-header {
+      padding: 24px 28px 20px;
+      display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-route-badge {
+      padding: 8px 16px; border-radius: 12px;
+      font-size: 16px; font-weight: 900; border: 2px solid;
+      white-space: nowrap;
+    }
+    .tk-route-info { flex: 1; }
+    .tk-route-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+    .tk-status-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 6px;
+      background: rgba(67,233,123,0.12); border: 1px solid rgba(67,233,123,0.3);
+      font-size: 11px; font-weight: 800; color: #43e97b;
+      letter-spacing: 0.5px;
+    }
+
+    /* Journey segment */
+    .tk-journey {
+      padding: 20px 28px;
+      display: flex; align-items: center; gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-stop { flex: 1; }
+    .tk-stop-name { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+    .tk-stop-time { font-size: 14px; font-weight: 700; color: var(--primary-light); }
+    .tk-stop-label { font-size: 11px; color: var(--text-muted); }
+    .tk-mid {
+      flex: 0 0 auto; padding: 0 12px; text-align: center;
+    }
+    .tk-mid-line {
+      display: flex; align-items: center; gap: 4px; margin-bottom: 4px;
+    }
+    .tk-dash-line {
+      height: 2px; width: 50px;
+      background: repeating-linear-gradient(to right, var(--border) 0, var(--border) 6px, transparent 6px, transparent 10px);
+    }
+    .tk-bus-icon { font-size: 20px; }
+    .tk-duration { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .tk-stop.tk-stop-right { text-align: right; }
+
+    /* Tear line */
+    .tk-tear {
+      position: relative; height: 28px;
+      display: flex; align-items: center;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+    }
+    .tk-tear::before, .tk-tear::after {
+      content: ''; position: absolute;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--bg1); border: 1px solid var(--border);
+      top: 50%; transform: translateY(-50%);
+    }
+    .tk-tear::before { left: -11px; }
+    .tk-tear::after  { right: -11px; }
+    .tk-tear-label {
+      margin: 0 auto; font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted);
+      user-select: none;
+    }
+
+    /* Details grid */
+    .tk-details {
+      padding: 20px 28px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-detail { }
+    .tk-det-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .tk-det-val   { font-size: 13px; font-weight: 700; }
+
+    /* QR section */
+    .tk-qr-section {
+      padding: 24px 28px;
+      display: flex; align-items: center; gap: 24px;
+      flex-wrap: wrap;
+    }
+    .tk-qr-wrap {
+      width: 190px; height: 190px;
+      border-radius: 16px; overflow: hidden;
+      border: 3px solid var(--border);
+      background: #0a0a0f;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    #qr-container canvas, #qr-container img {
+      display: block !important;
+      border-radius: 12px;
+    }
+    .tk-qr-info { flex: 1; min-width: 160px; }
+    .tk-qr-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+    .tk-ticket-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; font-weight: 700;
+      color: var(--primary-light);
+      background: rgba(108,99,255,0.1);
+      border: 1px solid rgba(108,99,255,0.25);
+      padding: 8px 12px; border-radius: 8px; margin-bottom: 12px;
+      word-break: break-all;
+    }
+    .tk-qr-hint { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+    .tk-validity { font-size: 12px; color: #fee140; margin-top: 8px; }
+
+    /* Action buttons */
+    .tk-actions {
+      padding: 0 28px 24px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .tk-action-btn {
+      flex: 1; min-width: 120px;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 11px 16px; border-radius: 12px; font-family: var(--font-body);
+      font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+      border: none; text-decoration: none;
+    }
+    .tk-btn-primary {
+      background: var(--gradient-main); color: #fff;
+      box-shadow: 0 4px 14px rgba(108,99,255,0.3);
+    }
+    .tk-btn-primary:hover { transform: translateY(-2px); }
+    .tk-btn-ghost {
+      background: var(--bg3); color: var(--text-primary);
+      border: 1.5px solid var(--border);
+    }
+    .tk-btn-ghost:hover { border-color: var(--primary); }
+
+    /* My tickets link */
+    .tk-bottom-links {
+      max-width: 520px; margin: 20px auto 0; padding: 0 20px;
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .tk-link {
+      font-size: 13px; font-weight: 600; color: var(--primary-light);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+    }
+    .tk-link:hover { text-decoration: underline; }
+
+    /* Print styles */
+    @media print {
+      body { background: #fff; color: #000; }
+      .navbar, .tk-success-banner, .tk-actions, .tk-bottom-links { display: none; }
+      .ticket-card { max-width: 100%; padding: 0; }
+      .ticket-inner { border: 2px solid #ccc; }
+    }
+
+    /* Toast (reuse from style.css) */
+    .tg-toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: rgba(22,22,35,0.96); border: 1px solid var(--border);
+      color: var(--text-primary); padding: 12px 22px; border-radius: 12px;
+      font-size: 14px; font-weight: 600; opacity: 0; transition: all 0.3s ease;
+      z-index: 9999; white-space: nowrap; backdrop-filter: blur(12px);
+    }
+    .tg-toast.toast-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgTK)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgTK" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+      </ul>
+      <a href="route-search.html" class="nav-cta">Book Another</a>
+    </div>
+  </nav>
+
+  <div class="tk-page">
+
+    <!-- Success Banner -->
+    <div class="tk-success-banner">
+      <div class="tk-check-circle">✓</div>
+      <div class="tk-success-title">Ticket Confirmed! 🎉</div>
+      <div class="tk-success-sub">
+        Your PMPML bus ticket is ready. Show the QR code to the conductor at boarding.
+      </div>
+      <div class="tk-countdown" id="tk-countdown">Loading…</div>
+    </div>
+
+    <!-- Boarding Pass Ticket with 3D Flipper -->
+    <div class="ticket-card" id="ticket-card">
+      <div class="ticket-flipper" id="ticket-flipper">
+
+        <!-- FRONT FACE: PASSENGER & QR PASS -->
+        <div class="ticket-inner ticket-front">
+
+          <!-- Color bar -->
+          <div class="tk-color-bar"></div>
+
+          <!-- Header -->
+          <div class="tk-header">
+            <div class="tk-route-badge" id="tk-route-badge">🚌15</div>
+            <div class="tk-route-info">
+              <div class="tk-route-name" id="tk-route-name">Route 15</div>
+              <span class="tk-status-chip">
+                <span style="width:6px;height:6px;border-radius:50%;background:#43e97b;display:inline-block"></span>
+                <span id="tk-status">CONFIRMED</span>
+              </span>
+            </div>
+            <div style="text-align:right;font-size:11px;color:var(--text-muted);">
+              <div>📅</div>
+              <div id="tk-date" style="font-weight:700;color:var(--text);font-size:12px;">—</div>
+            </div>
+          </div>
+
+          <!-- Journey Segment -->
+          <div class="tk-journey">
+            <div class="tk-stop">
+              <div class="tk-stop-name" id="tk-from">—</div>
+              <div class="tk-stop-time" id="tk-dep-time">—</div>
+              <div class="tk-stop-label">DEPARTURE</div>
+            </div>
+            <div class="tk-mid">
+              <div class="tk-mid-line">
+                <div class="tk-dash-line"></div>
+                <div class="tk-bus-icon">🚌</div>
+                <div class="tk-dash-line"></div>
+              </div>
+              <div class="tk-duration" id="tk-duration">— min</div>
+            </div>
+            <div class="tk-stop tk-stop-right">
+              <div class="tk-stop-name" id="tk-to">—</div>
+              <div class="tk-stop-time" id="tk-arr-time">—</div>
+              <div class="tk-stop-label">ARRIVAL</div>
+            </div>
+          </div>
+
+          <!-- Tear line -->
+          <div class="tk-tear">
+            <span class="tk-tear-label">✦ &nbsp; BOARDING PASS &nbsp; ✦</span>
+          </div>
+
+          <!-- Details grid -->
+          <div class="tk-details">
+            <div class="tk-detail">
+              <div class="tk-det-label">Passenger</div>
+              <div class="tk-det-val" id="tk-passenger">—</div>
+            </div>
+            <div class="tk-detail">
+              <div class="tk-det-label">Mobile</div>
+              <div class="tk-det-val" id="tk-phone">—</div>
+            </div>
+            <div class="tk-detail">
+              <div class="tk-det-label">Passengers</div>
+              <div class="tk-det-val" id="tk-pax-count">—</div>
+            </div>
+            <div class="tk-detail">
+              <div class="tk-det-label">Seat Type</div>
+              <div class="tk-det-val" id="tk-seat-type">—</div>
+            </div>
+            <div class="tk-detail">
+              <div class="tk-det-label">Payment</div>
+              <div class="tk-det-val" id="tk-pay-method">—</div>
+            </div>
+            <div class="tk-detail">
+              <div class="tk-det-label">Amount Paid</div>
+              <div class="tk-det-val" style="color:#43e97b" id="tk-fare">—</div>
+            </div>
+            <div class="tk-detail" style="grid-column:1/-1">
+              <div class="tk-det-label">Transaction ID</div>
+              <div class="tk-det-val" style="font-family:monospace;font-size:12px" id="tk-txn-id">—</div>
+            </div>
+          </div>
+
+          <!-- QR Section -->
+          <div class="tk-qr-section">
+            <div class="tk-qr-wrap">
+              <div id="qr-container"></div>
+            </div>
+            <div class="tk-qr-info">
+              <div class="tk-qr-label">Ticket ID</div>
+              <div class="tk-ticket-id" id="tk-ticket-id">—</div>
+              <div class="tk-qr-hint">Show this QR to the conductor at boarding. Valid for one journey only.</div>
+              <div class="tk-validity">⏳ Valid till: <span id="tk-valid-till">—</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BACK FACE: OFFICIAL SECURITY & HELPLINE PASS -->
+        <div class="ticket-inner ticket-back">
+          <div class="tk-color-bar"></div>
+          
+          <div class="tk-header">
+            <div class="tk-route-badge" style="background:rgba(62,207,207,0.1);color:#3ECFCF;border-color:#3ECFCF">🔒 PMPML</div>
+            <div class="tk-route-info">
+              <div class="tk-route-name">Transit Security Pass</div>
+              <span class="telemetry-chip">SEC-CLEARANCE // VERIFIED</span>
+            </div>
+          </div>
+
+          <!-- Holographic security strip -->
+          <div class="tk-holo-strip">
+            <span>✦ PMPML PUNE METROPOLITAN TRANSIT ✦ OFFICIAL DIGITAL PASS ✦ NON-TRANSFERABLE ✦</span>
+          </div>
+
+          <div class="tk-back-body">
+            <div class="tk-back-row">
+              <strong>Digital Cryptography</strong>
+              <span class="mono-hash">SHA256: 8F2A-9410-C71B</span>
+            </div>
+            <div class="tk-back-row">
+              <strong>Luggage Allowance</strong>
+              <span style="font-weight:700">15 kg personal bag</span>
+            </div>
+            <div class="tk-back-row">
+              <strong>Conductor Hotline</strong>
+              <span style="color:#f5576c;font-weight:800">📞 1800-233-0244</span>
+            </div>
+            <div class="tk-back-row">
+              <strong>Transit Division</strong>
+              <span>Pune Municipal Corporation</span>
+            </div>
+          </div>
+
+          <div class="tk-barcode-wrap">
+            <div class="tk-barcode-lines">||| | |||| || | ||||| | |||| ||| ||</div>
+            <div class="tk-barcode-num" id="tk-barcode-num">TG-2026-PMPML-SEC-09</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Actions (Share, Save, Flip) -->
+    <div class="tk-actions" style="max-width:520px;margin:20px auto 0;padding:0 20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="tk-action-btn tk-btn-primary" onclick="shareTicket()">
+        📤 Share Ticket
+      </button>
+      <button class="tk-action-btn tk-btn-ghost" onclick="downloadTicket()">
+        💾 Save / Print
+      </button>
+      <button class="tk-action-btn tk-btn-ghost" id="flip-ticket-btn" onclick="toggleTicketFlip()">
+        🔄 Flip to Security Pass
+      </button>
+    </div>
+
+    <!-- Bottom links -->
+    <div class="tk-bottom-links">
+      <a href="route-search.html" class="tk-link">🔍 Search another route</a>
+      <span style="color:var(--border)">·</span>
+      <a href="live-track.html" class="tk-link">🗺️ Track your bus</a>
+      <span style="color:var(--border)">·</span>
+      <a href="index.html" class="tk-link">🏠 Home</a>
+    </div>
+
+  </div>
+
+  <script src="js/route-data.js"></script>
+  <script src="js/ticket.js"></script>
+  <script>
+    // 1. Animate ticket card in
+    setTimeout(() => {
+      document.getElementById("ticket-card").classList.add("tk-visible");
+      launchConfetti();
+    }, 350);
+
+    // 2. 3D Parallax Tilt Effect
+    const cardEl = document.getElementById('ticket-card');
+    const flipperEl = document.getElementById('ticket-flipper');
+
+    cardEl.addEventListener('mousemove', (e) => {
+      if (cardEl.classList.contains('is-flipped')) return;
+      const rect = cardEl.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotateX = -(y / (rect.height / 2)) * 7;
+      const rotateY = (x / (rect.width / 2)) * 7;
+      flipperEl.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    cardEl.addEventListener('mouseleave', () => {
+      if (!cardEl.classList.contains('is-flipped')) {
+        flipperEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      }
+    });
+
+    // 3. Card Flip Toggle
+    function toggleTicketFlip() {
+      cardEl.classList.toggle('is-flipped');
+      const btn = document.getElementById('flip-ticket-btn');
+      if (cardEl.classList.contains('is-flipped')) {
+        flipperEl.style.transform = 'perspective(1000px) rotateY(180deg)';
+        btn.textContent = '🔄 Flip to Front QR';
+      } else {
+        flipperEl.style.transform = 'perspective(1000px) rotateY(0deg)';
+        btn.textContent = '🔄 Flip to Security Pass';
+      }
+    }
+
+    // 4. Celebratory Confetti Burst
+    function launchConfetti() {
+      const canvas = document.createElement('canvas');
+      canvas.id = 'confetti-canvas';
+      canvas.style.position = 'fixed';
+      canvas.style.inset = '0';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '9999';
+      document.body.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      const colors = ['#6C63FF', '#3ECFCF', '#43e97b', '#fee140', '#f5576c', '#ffffff'];
+
+      for (let i = 0; i < 80; i++) {
+        pieces.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2 - 80,
+          w: Math.random() * 8 + 6,
+          h: Math.random() * 12 + 6,
+          vx: (Math.random() - 0.5) * 18,
+          vy: (Math.random() - 0.7) * 18,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          vr: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+
+      let startTime = Date.now();
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const elapsed = Date.now() - startTime;
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35; // gravity
+          p.rotation += p.vr;
+          p.opacity = Math.max(0, 1 - elapsed / 2600);
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        if (elapsed < 2600) {
+          requestAnimationFrame(render);
+        } else {
+          canvas.remove();
+        }
+      }
+      requestAnimationFrame(render);
+    }
+  </script>
+</body>
+</html>

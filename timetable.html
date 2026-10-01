@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bus Timetable — TransitGo</title>
+  <meta name="description" content="View full PMPML bus schedules for all Pune routes. See stop-by-stop timings, first and last bus times, frequency, and live crowd levels." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/timetable.css" />
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgT)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgT" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/>
+                <stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html" class="nav-active">Timetable</a></li>
+        <li><a href="alerts.html">Alerts</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta">Book Ticket</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- ─── PAGE HERO ────────────────────────────────────────── -->
+  <section class="tt-hero">
+    <div class="tt-hero-bg">
+      <div class="tt-orb tt-orb1"></div>
+      <div class="tt-orb tt-orb2"></div>
+    </div>
+    <div class="tt-hero-content">
+      <div class="tt-badge">
+        <span class="badge-dot"></span>
+        All 8 PMPML Routes · Pune
+      </div>
+      <h1>Bus <span class="gradient-text">Timetable</span></h1>
+      <p>Full departure schedules for every PMPML route. See stop‑by‑stop timings, live crowd levels, and your next bus — updated in real‑time.</p>
+    </div>
+  </section>
+
+  <!-- ─── ROUTE SELECTOR + CARD ─────────────────────────────── -->
+  <section class="tt-selector-section">
+    <div class="tt-container">
+
+      <!-- Route tab buttons — built by timetable.js -->
+      <div class="route-tabs" id="route-tabs">
+        <!-- JS fills this -->
+      </div>
+
+      <!-- Timetable card — JS fills + updates this on tab switch -->
+      <div class="tt-card" id="tt-card">
+        <!-- Loading state until JS initialises -->
+        <div style="padding:60px 32px;text-align:center;opacity:0.4">
+          <div style="font-size:40px;margin-bottom:12px">🕐</div>
+          <div>Loading schedule…</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── INFO CARDS ────────────────────────────────────────── -->
+  <section class="tt-info-strip">
+    <div class="tt-info-grid">
+      <div class="tt-info-card">
+        <div class="tt-info-icon">🚌</div>
+        <div>
+          <div class="tt-info-title">8 Routes</div>
+          <div class="tt-info-sub">All major Pune corridors</div>
+        </div>
+      </div>
+      <div class="tt-info-card">
+        <div class="tt-info-icon">📍</div>
+        <div>
+          <div class="tt-info-title">30+ Stops</div>
+          <div class="tt-info-sub">Across Pune metropolitan area</div>
+        </div>
+      </div>
+      <div class="tt-info-card">
+        <div class="tt-info-icon">⏱️</div>
+        <div>
+          <div class="tt-info-title">Every 10–30 min</div>
+          <div class="tt-info-sub">High-frequency peak services</div>
+        </div>
+      </div>
+      <div class="tt-info-card">
+        <div class="tt-info-icon">🌅</div>
+        <div>
+          <div class="tt-info-title">5:30 AM – 11 PM</div>
+          <div class="tt-info-sub">Daily operating window</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA SECTION ──────────────────────────────────────── -->
+  <section class="tt-cta-section">
+    <div class="tt-cta-inner">
+      <div class="tt-cta-text">
+        <h3>Need to catch a bus right now?</h3>
+        <p>Search by your exact start and destination to see live timings, fares, and crowd levels.</p>
+      </div>
+      <div class="tt-cta-btns">
+        <a href="route-search.html" class="tt-btn tt-btn-primary">
+          🔍 Search Routes
+        </a>
+        <a href="live-track.html" class="tt-btn tt-btn-secondary">
+          🗺️ Live Map
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#lgFT)"/>
+              <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="lgFT" x1="0" y1="0" x2="28" y2="28">
+                  <stop stop-color="#6C63FF"/>
+                  <stop offset="1" stop-color="#3ECFCF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">TransitGo</span>
+        </div>
+        <p>Making public transport smarter for every commuter in Pune.</p>
+      </div>
+      <div class="footer-tags">
+        <div class="footer-tag">DTPLM Course Project</div>
+        <div class="footer-tag">VIT · CSAI-A · Batch 2</div>
+        <div class="footer-tag">2025-26</div>
+      </div>
+    </div>
+    <div class="footer-bottom">Built with love by Team TransitGo · VIT DTPLM 2025</div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/route-data.js"></script>
+  <script src="js/timetable.js"></script>
+  <script>
+    const hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => { const o = mm.classList.toggle('open'); hb.classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); hb.classList.remove('open'); document.body.style.overflow = ''; }));
+    const sb = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => sb.classList.toggle('visible', window.scrollY > 300));
+    sb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

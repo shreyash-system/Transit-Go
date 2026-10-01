@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Alerts & Crowd Forecast — TransitGo</title>
+  <meta name="description" content="Real-time PMPML bus delay alerts and AI-powered crowd predictions for all Pune routes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/alerts.css" />
+  <script src="js/theme.js"></script>
+  <style>
+    /* Crowd insight rows */
+    .crowd-insight-box {
+      margin-top: 22px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .ci-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 18px; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .ci-row:last-child { border-bottom: none; }
+    .ci-label { color: var(--text-muted); font-weight: 600; }
+    .ci-val   { font-weight: 800; }
+
+    /* Crowd chart header row */
+    .crowd-chart-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+    }
+    .crowd-now-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 20px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      font-size: 12px; font-weight: 700; color: var(--text-muted);
+    }
+
+    /* AI badge */
+    .ai-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 8px;
+      background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(62,207,207,0.2));
+      border: 1px solid rgba(108,99,255,0.3);
+      font-size: 11px; font-weight: 800; color: var(--primary-light);
+      letter-spacing: 0.5px; text-transform: uppercase; margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#lgAL)"/>
+            <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="lgAL" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">TransitGo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="route-search.html">Search Routes</a></li>
+        <li><a href="live-track.html">Live Map</a></li>
+        <li><a href="timetable.html">Timetable</a></li>
+        <li><a href="alerts.html" class="nav-active">Alerts</a></li>
+      </ul>
+      <div class="nav-action">
+        <a href="booking.html" class="nav-cta">Book Ticket</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 Home</a>
+    <a href="route-search.html">🔍 Search Routes</a>
+    <a href="live-track.html">🗺️ Live Map</a>
+    <a href="timetable.html">📅 Timetable</a>
+    <a href="alerts.html">🔔 Alerts</a>
+    <a href="booking.html" class="mm-cta">🎫 Book Ticket</a>
+  </div>
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+
+  <!-- ─── HERO ──────────────────────────────────────────────── -->
+  <section class="al-hero">
+    <div class="bk-orb al-orb1"></div>
+    <div class="bk-orb al-orb2"></div>
+    <div class="al-hero-content">
+      <div class="al-live-badge">
+        <span class="al-live-dot"></span>
+        Live Service Updates · PMPML Pune
+      </div>
+      <h1>Alerts &amp; <span class="gradient-text">Crowd Forecast</span></h1>
+      <p>Real-time disruption alerts for all routes — cancellations, delays, diversions. Plus AI-powered crowd predictions so you can plan smarter.</p>
+
+      <!-- Stats bar -->
+      <div class="al-stats">
+        <div class="al-stat">
+          <div class="al-stat-num" id="stat-critical" style="color:#f5576c">—</div>
+          <div class="al-stat-label">Critical</div>
+        </div>
+        <div class="al-stat">
+          <div class="al-stat-num" id="stat-high" style="color:#fee140">—</div>
+          <div class="al-stat-label">High</div>
+        </div>
+        <div class="al-stat">
+          <div class="al-stat-num" id="stat-medium" style="color:#4facfe">—</div>
+          <div class="al-stat-label">Medium</div>
+        </div>
+        <div class="al-stat">
+          <div class="al-stat-num" id="stat-routes" style="color:#43e97b">—</div>
+          <div class="al-stat-label">Routes Affected</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ALERTS SECTION ────────────────────────────────────── -->
+  <section class="al-section">
+    <div class="al-container">
+
+      <!-- ── Toolbar ── -->
+      <div class="al-toolbar">
+        <button class="al-filter-chip chip-active" data-filter="all"   onclick="setFilter('all')">
+          🔔 All Alerts <span id="alert-count" style="opacity:.6;font-size:10px"></span>
+        </button>
+        <button class="al-filter-chip" data-filter="critical"         onclick="setFilter('critical')">
+          🚫 Critical
+        </button>
+        <button class="al-filter-chip" data-filter="high"             onclick="setFilter('high')">
+          ⏳ Delays
+        </button>
+        <button class="al-filter-chip" data-filter="cancellation"     onclick="setFilter('cancellation')">
+          ✂️ Cancellations
+        </button>
+        <button class="al-filter-chip" data-filter="low"              onclick="setFilter('low')">
+          ℹ️ Info
+        </button>
+
+        <div class="al-toolbar-right">
+          <span id="last-updated" style="font-size:11px;opacity:0.6">—</span>
+          <button class="al-refresh-btn" id="refresh-btn" onclick="refreshAlerts(true)">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M10.5 1.5A5 5 0 1 1 6 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M6 1L8 3L6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Alert list (rendered by JS) ── -->
+      <div class="al-list" id="al-list">
+        <div style="text-align:center;padding:40px;opacity:0.4">Loading alerts…</div>
+      </div>
+
+      <!-- ── Subscribe bar ── -->
+      <div class="al-subscribe">
+        <div class="al-sub-icon">🔔</div>
+        <div class="al-sub-text">
+          <div class="al-sub-title">Get Instant Delay Notifications</div>
+          <div class="al-sub-desc">Subscribe to push alerts for your favourite routes. Never miss a cancellation or major delay.</div>
+        </div>
+        <div class="al-sub-btns">
+          <button class="al-sub-btn primary" id="notif-btn" onclick="requestNotificationPermission()">
+            🔔 Enable Notifications
+          </button>
+          <button class="al-sub-btn ghost" onclick="alert('SMS alerts coming in the next update!')">
+            📱 SMS Alerts
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── AI CROWD PREDICTION ──────────────────────────────── -->
+      <div class="crowd-section">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <div class="crowd-title">AI Crowd Prediction</div>
+          <span class="ai-badge">✨ AI Powered</span>
+        </div>
+        <div class="crowd-sub">
+          Predicted ridership throughout the day, based on historical PMPML patterns and route-specific modifiers.
+          <strong style="color:var(--text-primary)">White bar = current hour.</strong>
+        </div>
+
+        <div class="crowd-chart-header">
+          <select class="crowd-route-select" id="crowd-route-sel"
+                  onchange="onCrowdRouteChange(this.value)">
+            <!-- Populated by crowd.js -->
+          </select>
+          <span class="crowd-now-pill">🕐 Now: <span id="crowd-now-time">—</span></span>
+        </div>
+
+        <!-- Bar chart -->
+        <div class="crowd-chart" id="crowd-chart">
+          <div style="padding:20px;opacity:0.4;text-align:center;width:100%">Loading forecast…</div>
+        </div>
+
+        <!-- Legend -->
+        <div class="crowd-legend">
+          <div class="crowd-legend-item"><div class="crowd-legend-dot" style="background:#43e97b"></div> Comfortable (&lt;35%)</div>
+          <div class="crowd-legend-item"><div class="crowd-legend-dot" style="background:#4facfe"></div> Moderate (35–60%)</div>
+          <div class="crowd-legend-item"><div class="crowd-legend-dot" style="background:#fee140"></div> Crowded (60–80%)</div>
+          <div class="crowd-legend-item"><div class="crowd-legend-dot" style="background:#f5576c"></div> Very Crowded (&gt;80%)</div>
+          <div class="crowd-legend-item"><div class="crowd-legend-dot" style="background:#ffffff"></div> Current Hour</div>
+        </div>
+
+        <!-- AI Insights panel -->
+        <div class="crowd-insight-box">
+          <div id="crowd-insight">
+            <div class="ci-row" style="justify-content:center;opacity:0.4">Analysing route data…</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#lgFAL)"/>
+              <path d="M7 11h14M7 17h14M10 8v12M18 8v12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="lgFAL" x1="0" y1="0" x2="28" y2="28">
+                  <stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">TransitGo</span>
+        </div>
+        <p>Making public transport smarter for every commuter in Pune.</p>
+      </div>
+      <div class="footer-tags">
+        <div class="footer-tag">DTPLM Course Project</div>
+        <div class="footer-tag">VIT · CSAI-A · Batch 2</div>
+        <div class="footer-tag">2025-26</div>
+      </div>
+    </div>
+    <div class="footer-bottom">Built with love by Team TransitGo · VIT DTPLM 2025</div>
+  </footer>
+
+  <script src="js/route-data.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="js/crowd.js"></script>
+  <script>
+    // Set current time label
+    const nowH = new Date().getHours();
+    const nowM = new Date().getMinutes();
+    const ampm = nowH < 12 ? "AM" : "PM";
+    const h12  = nowH % 12 || 12;
+    document.getElementById("crowd-now-time").textContent = `${h12}:${String(nowM).padStart(2,"0")} ${ampm}`;
+
+    // Init crowd chart after JS loaded
+    initCrowdSelect();
+    // Mobile menu
+    const hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+    hb.addEventListener('click', () => { const o = mm.classList.toggle('open'); hb.classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; });
+    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); hb.classList.remove('open'); document.body.style.overflow = ''; }));
+    const sb = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => sb.classList.toggle('visible', window.scrollY > 300));
+    sb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@ const fromStop = params.get("from")  || "";
 const toStop   = params.get("to")   || "";
 
 // Find matching route
-const route = PMPML_ROUTES.find(r => r.id === routeId) || PMPML_ROUTES[0];
+const route = ALL_ROUTES.find(r => r.id === routeId) || ALL_ROUTES[0];
 
 // Sub-segment fare calculation (same logic as search.js)
 function getSegmentFare(route, from, to) {

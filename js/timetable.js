@@ -72,14 +72,14 @@ function getPeriod(min) {
 
 // ── Build Route Tabs ─────────────────────────────────────────
 function buildTabs() {
-  routeTabs.innerHTML = PMPML_ROUTES.map(r => `
+  routeTabs.innerHTML = ALL_ROUTES.map(r => `
     <button
       class="route-tab ${r.id === activeRouteId ? "tab-active" : ""}"
       id="tab-${r.id}"
       onclick="selectRoute('${r.id}')"
     >
       <span class="rt-dot" style="background:${r.color}"></span>
-      ${r.id} · ${r.from.split(" ")[0]}→${r.to.split(" ")[0]}
+      ${r.type === "Metro" ? "🚇" : ""} ${r.id} · ${r.from.split(" ")[0]}→${r.to.split(" ")[0]}
     </button>
   `).join("");
 }
@@ -104,7 +104,7 @@ function selectRoute(routeId) {
 
 // ── Render Timetable Card ─────────────────────────────────────
 function renderTimetableCard(routeId) {
-  const route = PMPML_ROUTES.find(r => r.id === routeId);
+  const route = ALL_ROUTES.find(r => r.id === routeId);
   if (!route) return;
 
   ttCard.classList.remove("card-visible");
@@ -216,7 +216,7 @@ function renderTimetableCard(routeId) {
         🚌${route.id}
       </div>
       <div class="tt-route-info">
-        <div class="tt-route-name">${route.name} — ${route.from} → ${route.to}</div>
+        <div class="tt-route-name">${route.type === "Metro" ? "🚇" : "🚌"} ${route.name} — ${route.from} → ${route.to}${route.line ? ` <span class="rc-line-chip" style="background:${route.color}25;color:${route.color};border-color:${route.color}50;font-size:0.75rem;padding:2px 8px;border-radius:99px;border:1px solid">${route.line}</span>` : ""}</div>
         <div class="tt-route-sub">
           <span>📍 ${route.stops.length} stops</span>
           <span class="tt-route-sep">|</span>
@@ -292,7 +292,7 @@ function setFilter(period) {
   const routeId = params.get("route");
 
   // Default to first route or requested
-  const target = PMPML_ROUTES.find(r => r.id === routeId) ? routeId : PMPML_ROUTES[0].id;
+  const target = ALL_ROUTES.find(r => r.id === routeId) ? routeId : ALL_ROUTES[0].id;
   activeRouteId = target;
 
   buildTabs();

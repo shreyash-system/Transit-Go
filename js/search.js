@@ -4,6 +4,7 @@
 // ============================================================
 
 let activeDropdown = null; // "from" | "to" | null
+let activeTypeFilter = null; // null = All, "Bus", "Metro"
 
 // ── DOM refs ─────────────────────────────────────────────────
 const fromInput      = document.getElementById("from-input");
@@ -110,8 +111,19 @@ function doSearch() {
   setTimeout(() => {
     searchBtn.classList.remove("loading");
     searchBtn.querySelector(".btn-text").textContent = "Find Buses";
-    renderResults(from, to);
+    renderResults(from, to, activeTypeFilter);
   }, 700);
+}
+
+// ── Transit type filter ──────────────────────────────────────
+function setTypeFilter(type) {
+  activeTypeFilter = type;
+  document.querySelectorAll(".type-filter-btn").forEach(btn => {
+    btn.classList.toggle("tf-btn-active", btn.dataset.type === (type || "all"));
+  });
+  const from = fromInput.value.trim();
+  const to   = toInput.value.trim();
+  if (from && to) renderResults(from, to, activeTypeFilter);
 }
 
 function shakeInput(input) {
@@ -121,8 +133,8 @@ function shakeInput(input) {
 }
 
 // ── Render Results ───────────────────────────────────────────
-function renderResults(from, to) {
-  const routes = findRoutes(from, to);
+function renderResults(from, to, typeFilter) {
+  const routes = findRoutes(from, to, typeFilter);
   resultsSection.style.display = "block";
 
   // Scroll to results
@@ -139,7 +151,13 @@ function renderResults(from, to) {
 
   noResults.style.display = "none";
   resultsGrid.style.display = "grid";
-  resultsCount.textContent = `${routes.length} bus${routes.length > 1 ? "es" : ""} found for ${from} → ${to}`;
+  const busCount   = routes.filter(r => r.type === "Bus").length;
+  const metroCount = routes.filter(r => r.type === "Metro").length;
+  let countLabel = `${routes.length} result${routes.length > 1 ? "s" : ""} for ${from} → ${to}`;
+  if (busCount && metroCount) countLabel += ` · ${busCount} 🚌 Bus, ${metroCount} 🚇 Metro`;
+  else if (busCount)   countLabel += ` · ${busCount} 🚌 Bus`;
+  else if (metroCount) countLabel += ` · ${metroCount} 🚇 Metro`;
+  resultsCount.textContent = countLabel;
 
   const favs = getFavourites();
 
@@ -147,14 +165,17 @@ function renderResults(from, to) {
     const departures = getNextDepartures(route, 3);
     const crowd      = getCrowdLevel();
     const isFav      = favs.some(f => f.id === route.id && f.from === from && f.to === to);
+    const isMetro    = route.type === "Metro";
+    const typeEmoji  = isMetro ? "🚇" : "🚌";
+    const typeClass  = isMetro ? "rc-metro" : "";
 
     return `
-      <div class="result-card" style="animation-delay:${idx * 0.08}s">
+      <div class="result-card ${typeClass}" style="animation-delay:${idx * 0.08}s">
         <div class="rc-header">
           <div class="rc-badge" style="background:${route.color}20; border-color:${route.color}40; color:${route.color}">
-            🚌 ${route.id}
+            ${typeEmoji} ${route.id}
           </div>
-          <div class="rc-name">${route.name}</div>
+          <div class="rc-name">${route.name}${isMetro ? ` <span class="rc-line-chip" style="background:${route.color}25;color:${route.color};border-color:${route.color}50">${route.line}</span>` : ""}</div>
           <button class="fav-btn ${isFav ? "fav-active" : ""}"
                   onclick="toggleFav('${route.id}','${from}','${to}', this)"
                   title="${isFav ? "Remove from favourites" : "Save to favourites"}">
@@ -191,6 +212,7 @@ function renderResults(from, to) {
             <span class="rc-meta-icon">🔄</span>
             <span>${route.frequency}</span>
           </div>
+          ${route.acAvailable ? `<div class="rc-meta-item"><span class="rc-meta-icon">❄️</span><span>AC</span></div>` : ""}
           <div class="rc-meta-item crowd-pill" style="color:${crowd.color}">
             <span>${crowd.emoji}</span>
             <span>${crowd.label}</span>

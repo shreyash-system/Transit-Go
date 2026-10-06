@@ -665,8 +665,64 @@
   color: #0F172A;
 }
 
+
 [data-theme="light"] .tg-toast {
   background: #0F172A;
   color: #FFFFFF;
 }
 
+/* ── Transit Type Filter Bar ─────────────────────────────── */
+.type-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.type-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+.type-filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary-light);
+  background: rgba(108,99,255,0.08);
+}
+.type-filter-btn.tf-btn-active {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(108,99,255,0.35);
+}
+
+/* ── Metro Result Card ───────────────────────────────────── */
+.result-card.rc-metro {
+  border-left: 3px solid #8B5CF6;
+  background: linear-gradient(135deg, var(--surface2) 0%, rgba(139,92,246,0.05) 100%);
+}
+.result-card.rc-metro .rc-badge {
+  font-weight: 700;
+}
+
+/* ── Line chip (Metro Line label) ────────────────────────── */
+.rc-line-chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 99px;
+  border: 1px solid;
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: 0.3px;
+}

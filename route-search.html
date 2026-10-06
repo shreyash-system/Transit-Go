@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Your Bus — TransitGo</title>
-  <meta name="description" content="Search PMPML bus routes in Pune. Find buses by source and destination with live timings, fares, and crowd levels." />
+  <meta name="description" content="Search PMPML bus routes and Pune Metro in Pune. Find buses and metro trains by source and destination with live timings, fares, and crowd levels." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
@@ -67,10 +67,10 @@
     <div class="sh-content">
       <div class="sh-badge">
         <span class="badge-dot"></span>
-        Live PMPML Data · Pune
+        Live PMPML &amp; Metro Data · Pune
       </div>
-      <h1 class="sh-title">Find Your <span class="gradient-text">Bus</span></h1>
-      <p class="sh-sub">Enter your start and destination to see all matching routes with live timings, fares, and crowd levels.</p>
+      <h1 class="sh-title">Find Your <span class="gradient-text">Route</span></h1>
+      <p class="sh-sub">Search PMPML buses and Pune Metro trains between any two stops — with live timings, fares, and crowd levels.</p>
     </div>
   </section>
 
@@ -147,18 +147,34 @@
 
       </div>
 
-      <!-- Quick Routes -->
-      <div class="quick-routes-section">
-        <div class="qr-label">Popular routes</div>
-        <div class="quick-routes-list">
-          <button class="quick-route" data-from="Katraj" data-to="Hadapsar">Katraj → Hadapsar</button>
-          <button class="quick-route" data-from="Deccan Gymkhana" data-to="Kothrud">Deccan → Kothrud</button>
-          <button class="quick-route" data-from="Shivajinagar" data-to="Swargate">Shivajinagar → Swargate</button>
-          <button class="quick-route" data-from="Wakad" data-to="Swargate">Wakad → Swargate</button>
-          <button class="quick-route" data-from="Pimpri" data-to="Swargate">Pimpri → Swargate</button>
-          <button class="quick-route" data-from="Vishrantwadi" data-to="Hadapsar">Vishrantwadi → Hadapsar</button>
+        <!-- Transit Type Filter -->
+        <div class="type-filter-bar">
+          <button class="type-filter-btn tf-btn-active" data-type="all" onclick="setTypeFilter(null)">🚦 All</button>
+          <button class="type-filter-btn" data-type="Bus" onclick="setTypeFilter('Bus')">🚌 PMPML Bus</button>
+          <button class="type-filter-btn" data-type="Metro" onclick="setTypeFilter('Metro')">🚇 Pune Metro</button>
         </div>
-      </div>
+
+        <!-- Quick Routes -->
+        <div class="quick-routes-section">
+          <div class="qr-label">Popular Bus Routes</div>
+          <div class="quick-routes-list">
+            <button class="quick-route" data-from="Katraj" data-to="Hadapsar">Katraj → Hadapsar</button>
+            <button class="quick-route" data-from="Deccan Gymkhana" data-to="Kothrud">Deccan → Kothrud</button>
+            <button class="quick-route" data-from="Shivajinagar" data-to="Swargate">Shivajinagar → Swargate</button>
+            <button class="quick-route" data-from="Hinjewadi" data-to="Shivajinagar">Hinjewadi → Shivajinagar</button>
+            <button class="quick-route" data-from="Nigdi" data-to="Pune Station">Nigdi → Pune Station</button>
+            <button class="quick-route" data-from="Pimpri" data-to="Swargate">Pimpri → Swargate</button>
+          </div>
+          <div class="qr-label" style="margin-top:12px">Popular Metro Routes</div>
+          <div class="quick-routes-list">
+            <button class="quick-route" data-from="PCMC Metro" data-to="Swargate Metro">PCMC → Swargate 🚇</button>
+            <button class="quick-route" data-from="Vanaz Metro" data-to="Ramwadi Metro">Vanaz → Ramwadi 🚇</button>
+            <button class="quick-route" data-from="PCMC Metro" data-to="Shivajinagar Metro">PCMC → Shivajinagar 🚇</button>
+            <button class="quick-route" data-from="Vanaz Metro" data-to="Pune Station Metro">Vanaz → Pune Station 🚇</button>
+            <button class="quick-route" data-from="Deccan Gymkhana Metro" data-to="Kalyani Nagar Metro">Deccan → Kalyani Nagar 🚇</button>
+            <button class="quick-route" data-from="Khadki Metro" data-to="Swargate Metro">Khadki → Swargate 🚇</button>
+          </div>
+        </div>
 
     </div>
   </section>
@@ -202,15 +218,22 @@
         <div class="info-item">
           <span class="info-icon">🚌</span>
           <div>
-            <div class="info-title">8 PMPML Routes</div>
+            <div class="info-title">14 PMPML Routes</div>
             <div class="info-sub">Covering major Pune corridors</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">🚇</span>
+          <div>
+            <div class="info-title">4 Metro Services</div>
+            <div class="info-sub">Purple Line &amp; Aqua Line</div>
           </div>
         </div>
         <div class="info-item">
           <span class="info-icon">📍</span>
           <div>
-            <div class="info-title">30+ Stops</div>
-            <div class="info-sub">Across Pune city</div>
+            <div class="info-title">65+ Stops</div>
+            <div class="info-sub">Bus stops &amp; Metro stations</div>
           </div>
         </div>
         <div class="info-item">

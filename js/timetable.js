@@ -193,13 +193,14 @@ function renderTimetableCard(routeId) {
   }
 
   // ── Alert HTML ────────────────────────────────────────────
+  const isMetro = route.type === "Metro";
   let alertHtml = "";
   if (nextIdx === null) {
-    alertHtml = `<div class="tt-alert alert-warn">🌙 Service has ended for today. First bus tomorrow at ${route.firstBus}</div>`;
+    alertHtml = `<div class="tt-alert alert-warn">🌙 Service has ended for today. First ${isMetro ? "metro" : "bus"} tomorrow at ${route.firstBus}</div>`;
   } else if (isLastBusSoon) {
-    alertHtml = `<div class="tt-alert alert-warn">⚠️ Last bus departs at ${route.lastBus}. Plan accordingly.</div>`;
+    alertHtml = `<div class="tt-alert alert-warn">⚠️ Last ${isMetro ? "metro train" : "bus"} departs at ${route.lastBus}. Plan accordingly.</div>`;
   } else if (nextIdx !== null && schedule[nextIdx] - now <= 5) {
-    alertHtml = `<div class="tt-alert alert-info">🚌 Next bus arriving very soon — ${schedule[nextIdx] - now <= 0 ? "now!" : `in ${schedule[nextIdx] - now} min`}</div>`;
+    alertHtml = `<div class="tt-alert alert-info">${isMetro ? "🚇" : "🚌"} Next ${isMetro ? "metro train" : "bus"} arriving very soon — ${schedule[nextIdx] - now <= 0 ? "now!" : `in ${schedule[nextIdx] - now} min`}</div>`;
   }
 
   // ── Crowd info ────────────────────────────────────────────
@@ -213,7 +214,7 @@ function renderTimetableCard(routeId) {
     <div class="tt-card-header">
       <div class="tt-route-badge"
            style="background:${route.color}18; border-color:${route.color}50; color:${route.color}">
-        🚌${route.id}
+        ${isMetro ? "🚇 " : "🚌 "}${route.id}
       </div>
       <div class="tt-route-info">
         <div class="tt-route-name">${route.type === "Metro" ? "🚇" : "🚌"} ${route.name} — ${route.from} → ${route.to}${route.line ? ` <span class="rc-line-chip" style="background:${route.color}25;color:${route.color};border-color:${route.color}50;font-size:0.75rem;padding:2px 8px;border-radius:99px;border:1px solid">${route.line}</span>` : ""}</div>

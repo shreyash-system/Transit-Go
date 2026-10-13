@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Bus Tracking — TransitGo</title>
-  <meta name="description" content="Track PMPML buses in real-time on an interactive map. See live bus locations, ETAs, and crowd levels across Pune." />
+  <title>Live Transit Tracking (Bus &amp; Metro) — TransitGo</title>
+  <meta name="description" content="Track PMPML buses and Pune Metro lines in real-time on an interactive map. See live bus and metro train locations, ETAs, and crowd levels across Pune." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
@@ -73,7 +73,7 @@
             <div class="sb-live-chip">
               <span class="live-dot"></span> LIVE
             </div>
-            <h1 class="sb-title">Pune Bus Tracker</h1>
+            <h1 class="sb-title">Pune Transit Tracker</h1>
           </div>
           <button class="sb-collapse-btn" id="collapse-btn" title="Collapse sidebar">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -81,18 +81,25 @@
             </svg>
           </button>
         </div>
-        <p class="sb-sub">Tracking <span id="bus-count">8</span> PMPML buses in real-time</p>
+        <p class="sb-sub">Tracking <span id="bus-count">8</span> buses &amp; <span id="metro-count">4</span> metro trains in real-time</p>
 
         <!-- Search inside map -->
         <div class="sb-search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#888"/>
           </svg>
-          <input type="text" id="route-filter" placeholder="Filter by route number..." />
+          <input type="text" id="route-filter" placeholder="Filter by route or metro..." />
         </div>
       </div>
 
-      <!-- Bus List -->
+      <!-- Transit Mode Filter -->
+      <div class="sb-mode-filter" id="mode-filter-bar">
+        <button type="button" class="sb-mode-btn active" data-mode="all">🚦 All (<span id="count-all">12</span>)</button>
+        <button type="button" class="sb-mode-btn" data-mode="bus">🚌 Buses (<span id="count-buses">8</span>)</button>
+        <button type="button" class="sb-mode-btn" data-mode="metro">🚇 Metro (<span id="count-metros">4</span>)</button>
+      </div>
+
+      <!-- Bus / Metro List -->
       <div class="sb-bus-list" id="bus-list">
         <!-- Populated by map.js -->
       </div>
@@ -117,6 +124,19 @@
     <!-- MAP AREA -->
     <div class="map-wrapper">
 
+      <!-- Map Layer Toggles Overlay -->
+      <div class="map-layer-toggles">
+        <button type="button" class="ml-chip active-purple" id="toggle-purple-line" title="Toggle Line 1 (Purple Line)">
+          <span>🟣</span> Purple Line
+        </button>
+        <button type="button" class="ml-chip active-aqua" id="toggle-aqua-line" title="Toggle Line 2 (Aqua Line)">
+          <span>🔵</span> Aqua Line
+        </button>
+        <button type="button" class="ml-chip active" id="toggle-stations" title="Toggle Metro Stations">
+          <span>🚉</span> Stations
+        </button>
+      </div>
+
       <!-- Map Controls Overlay -->
       <div class="map-controls">
         <button class="mc-btn" id="my-loc-btn" title="Go to my location (Pune centre)">
@@ -132,12 +152,12 @@
       <div class="map-stats-bar">
         <div class="msb-item">
           <span class="msb-dot dot-green"></span>
-          <span id="stat-on-time">6 On Time</span>
+          <span id="stat-on-time">10 On Time</span>
         </div>
         <div class="msb-sep"></div>
         <div class="msb-item">
           <span class="msb-dot dot-yellow"></span>
-          <span id="stat-delayed">1 Delayed</span>
+          <span id="stat-delayed">2 Delayed</span>
         </div>
         <div class="msb-sep"></div>
         <div class="msb-item">
@@ -156,7 +176,7 @@
 
       <!-- Mobile toggle -->
       <button class="mobile-sidebar-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()">
-        🚌 Buses
+        🚌 / 🚇 Transit
       </button>
     </div>
   </div>

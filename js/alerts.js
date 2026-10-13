@@ -9,35 +9,35 @@ const ALERT_TEMPLATES = [
   {
     severity: "critical",
     type: "cancellation",
-    titleFn: r => `Route ${r.id} — Trip Cancelled`,
-    bodyFn:  r => `The ${r.time} departure from ${r.from} has been cancelled due to vehicle breakdown near ${r.via[0] || r.stops[1].name}. Next bus in ${r.freq * 2} min.`,
+    titleFn: r => `${r.type === "Metro" ? "Metro " : "Route "}${r.id} — Trip Cancelled`,
+    bodyFn:  r => `The ${r.time} departure from ${r.from} has been cancelled due to technical maintenance near ${r.via[0] || r.stops[1].name}. Next ${r.type === "Metro" ? "train" : "bus"} in ${r.freq * 2} min.`,
     icon: "🚫", affectedTrips: 1,
-    metaFn: r => [`Affects: ${r.from} → ${r.to}`, "Reason: Vehicle Breakdown", "Alternative: Next departure"]
+    metaFn: r => [`Affects: ${r.from} → ${r.to}`, `Reason: ${r.type === "Metro" ? "Track Maintenance" : "Vehicle Breakdown"}`, "Alternative: Next departure"]
   },
   {
     severity: "critical",
     type: "diversion",
-    titleFn: r => `Route ${r.id} — Major Diversion`,
-    bodyFn:  r => `All ${r.name} buses are being diverted via alternate roads. Avoid ${r.via[0] || "usual route"}. Travel time increased by ~20 min.`,
+    titleFn: r => `${r.type === "Metro" ? "Metro " : "Route "}${r.id} — Service Disruption`,
+    bodyFn:  r => r.type === "Metro" ? `Metro ${r.name} services operating with speed restrictions between ${r.via[0] || r.stops[1].name} and ${r.to}.` : `All ${r.name} buses are being diverted via alternate roads. Avoid ${r.via[0] || "usual route"}. Travel time increased by ~20 min.`,
     icon: "↩️", affectedTrips: "All",
-    metaFn: r => [`Route: ${r.from} → ${r.to}`, "Reason: Road Closure / Protest", "Duration: Until further notice"]
+    metaFn: r => [`Route: ${r.from} → ${r.to}`, "Reason: Operational Adjustment", "Duration: Until further notice"]
   },
   // High
   {
     severity: "high",
     type: "delay",
-    titleFn: r => `Route ${r.id} — ${r.delay} min Delay`,
-    bodyFn:  r => `Bus ${r.name} is running approximately ${r.delay} minutes behind schedule at ${r.stops[Math.floor(r.stops.length/2)].name}. Caused by heavy traffic congestion near ${r.via[0] || "city centre"}.`,
+    titleFn: r => `${r.type === "Metro" ? "Metro " : "Route "}${r.id} — ${r.delay} min Delay`,
+    bodyFn:  r => `${r.type === "Metro" ? "Metro Train " : "Bus "}${r.name} is running approximately ${r.delay} minutes behind schedule at ${r.stops[Math.floor(r.stops.length/2)].name}. Caused by ${r.type === "Metro" ? "signaling hold" : "heavy traffic congestion near " + (r.via[0] || "city centre")}.`,
     icon: "⏳", affectedTrips: 3,
-    metaFn: r => [`Delay: ${r.delay} min`, `At: ${r.stops[Math.floor(r.stops.length/2)].name}`, "Reason: Traffic Congestion"]
+    metaFn: r => [`Delay: ${r.delay} min`, `At: ${r.stops[Math.floor(r.stops.length/2)].name}`, `Reason: ${r.type === "Metro" ? "Signaling Hold" : "Traffic Congestion"}`]
   },
   {
     severity: "high",
     type: "overcrowding",
-    titleFn: r => `Route ${r.id} — Severe Overcrowding`,
-    bodyFn:  r => `Peak hour overload on ${r.name}. Buses from ${r.from} are severely overcrowded. PMPML has deployed additional buses. Expect reduced frequency gaps.`,
+    titleFn: r => `${r.type === "Metro" ? "Metro " : "Route "}${r.id} — Heavy Ridership`,
+    bodyFn:  r => `Peak hour passenger rush on ${r.name}. Services from ${r.from} are experiencing high capacity. Standby services deployed to reduce wait times.`,
     icon: "👥", affectedTrips: "Multiple",
-    metaFn: r => [`Route: ${r.from} → ${r.to}`, "Crowd: 95%+ capacity", "Action: Extra buses deployed"]
+    metaFn: r => [`Route: ${r.from} → ${r.to}`, "Crowd: 90%+ capacity", "Action: Extra frequency deployed"]
   },
   // Medium
   {
@@ -103,9 +103,10 @@ function generateAlerts() {
     ...shuffle(lows).slice(0, 2)
   ];
 
+  const pool = typeof ALL_ROUTES !== "undefined" ? ALL_ROUTES : PMPML_ROUTES;
   plan.forEach((template, idx) => {
     // Pick a different route for each alert
-    const route = PMPML_ROUTES[(idx * 3) % PMPML_ROUTES.length];
+    const route = pool[(idx * 3) % pool.length];
     const minsAgo = Math.floor(Math.random() * 55) + 1;
     const delay   = [8, 12, 15, 18, 22][Math.floor(Math.random() * 5)];
 

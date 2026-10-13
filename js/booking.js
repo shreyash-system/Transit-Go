@@ -19,7 +19,8 @@ function getSegmentFare(route, from, to) {
   const tIdx  = names.findIndex(n => n.includes(to.toLowerCase())   || to.toLowerCase().includes(n.split(" ")[0]));
   if (fIdx === -1 || tIdx === -1 || fIdx >= tIdx) return route.fare;
   const segMin = route.stops[tIdx].offsetMin - route.stops[fIdx].offsetMin;
-  return Math.max(8, Math.round((segMin / route.durationMin) * route.fare));
+  const minFare = route.type === "Metro" ? 10 : 8;
+  return Math.max(minFare, Math.round((segMin / route.durationMin) * route.fare));
 }
 
 // ── State ─────────────────────────────────────────────────────
@@ -50,7 +51,8 @@ const booking = {
 // ── Render Journey Card ───────────────────────────────────────
 function renderJourneyCard() {
   const fare = baseFare * passengers * (seatType === "premium" ? 1.5 : 1);
-  document.getElementById("jc-badge").textContent    = `🚌${route.id}`;
+  const isMetro = route.type === "Metro";
+  document.getElementById("jc-badge").textContent    = `${isMetro ? "🚇 " : "🚌 "}${route.id}`;
   document.getElementById("jc-badge").style.background    = `${route.color}18`;
   document.getElementById("jc-badge").style.borderColor   = `${route.color}50`;
   document.getElementById("jc-badge").style.color         = route.color;

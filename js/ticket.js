@@ -30,7 +30,7 @@ if (!booking) {
 }
 
 // Find the route data
-const route = PMPML_ROUTES.find(r => r.id === booking.routeId) || PMPML_ROUTES[0];
+const route = (typeof ALL_ROUTES !== "undefined" ? ALL_ROUTES : PMPML_ROUTES).find(r => r.id === booking.routeId) || (typeof ALL_ROUTES !== "undefined" ? ALL_ROUTES[0] : PMPML_ROUTES[0]);
 
 // ── Ticket ID ─────────────────────────────────────────────────
 const ticketId = "TGO-" + booking.txnId + "-" + booking.routeId;
@@ -89,11 +89,14 @@ function generateQR() {
 // ── Render Ticket ─────────────────────────────────────────────
 function renderTicket() {
   // Header info
-  document.getElementById("tk-route-badge").textContent = `🚌 ${route.id}`;
+  const isMetro = route.type === "Metro";
+  document.getElementById("tk-route-badge").textContent = `${isMetro ? "🚇" : "🚌"} ${route.id}`;
   document.getElementById("tk-route-badge").style.background   = `${route.color}20`;
   document.getElementById("tk-route-badge").style.borderColor  = `${route.color}50`;
   document.getElementById("tk-route-badge").style.color        = route.color;
   document.getElementById("tk-route-name").textContent  = route.name;
+  const secBadge = document.querySelector(".ticket-back .tk-route-badge");
+  if (secBadge) secBadge.textContent = isMetro ? "🔒 PUNE METRO" : "🔒 PMPML";
   document.getElementById("tk-from").textContent        = booking.from;
   document.getElementById("tk-to").textContent          = booking.to;
   document.getElementById("tk-dep-time").textContent    = formatTime(booking.time);
@@ -125,10 +128,11 @@ function renderTicket() {
 
 // ── Share ticket ──────────────────────────────────────────────
 function shareTicket() {
+  const isMetro = route.type === "Metro";
   if (navigator.share) {
     navigator.share({
-      title: "TransitGo Bus Ticket",
-      text:  `🚌 My PMPML bus ticket: ${booking.from} → ${booking.to} on ${formatDate(booking.date)} at ${formatTime(booking.time)}. Ticket ID: ${ticketId}`,
+      title: `TransitGo ${isMetro ? "Metro" : "Bus"} Ticket`,
+      text:  `${isMetro ? "🚇" : "🚌"} My ${isMetro ? "Pune Metro" : "PMPML bus"} ticket: ${booking.from} → ${booking.to} on ${formatDate(booking.date)} at ${formatTime(booking.time)}. Ticket ID: ${ticketId}`,
       url:   window.location.href
     });
   } else {
@@ -157,6 +161,7 @@ function showToast(msg) {
 
 // ── Countdown to departure ────────────────────────────────────
 function startCountdown() {
+  const isMetro = route.type === "Metro";
   const dep = new Date(booking.date + "T" + booking.time + ":00");
   const tick = () => {
     const now  = new Date();
@@ -165,7 +170,7 @@ function startCountdown() {
     if (!el) return;
 
     if (diff <= 0) {
-      el.textContent = "Bus departed";
+      el.textContent = `${isMetro ? "Metro" : "Bus"} departed`;
       el.style.color = "#f5576c";
       return;
     }

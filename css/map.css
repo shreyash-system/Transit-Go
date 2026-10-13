@@ -264,16 +264,23 @@ body.map-page {
 }
 .leaflet-control-attribution a { color: rgba(255,255,255,0.5) !important; }
 
-/* ── Bus Markers ─────────────────────────────────────────── */
-.bus-marker-wrap {
+/* ── Bus & Metro Markers ─────────────────────────────────── */
+.bus-marker-wrap,
+.bus-marker-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
   animation: markerBounce 3s ease-in-out infinite;
 }
-.bus-marker-wrap:hover { transform: scale(1.15); }
+.bus-marker-wrap:hover,
+.bus-marker-wrapper:hover {
+  transform: scale(1.18) translateY(-3px);
+  z-index: 1000 !important;
+}
 
 @keyframes markerBounce {
   0%,100% { transform: translateY(0); }
@@ -288,6 +295,8 @@ body.map-page {
   display: flex; align-items: center; justify-content: center;
   font-size: 18px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
 }
 .bus-marker-tag {
   color: white;
@@ -298,6 +307,183 @@ body.map-page {
   margin-top: 3px;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* Metro Train Marker */
+.metro-marker-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  animation: metroMarkerBounce 2.5s ease-in-out infinite;
+}
+.metro-marker-wrapper:hover {
+  transform: scale(1.22) translateY(-4px);
+  z-index: 1000 !important;
+}
+
+@keyframes metroMarkerBounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.metro-marker-body {
+  width: 38px; height: 38px;
+  background: #090d16;
+  border: 2.5px solid;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.65);
+  position: relative;
+  z-index: 2;
+}
+.metro-marker-tag {
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 50px;
+  margin-top: 3px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  letter-spacing: 0.4px;
+  position: relative;
+  z-index: 2;
+}
+.metro-beacon-pulse {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid;
+  animation: metroRadarPulse 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  pointer-events: none;
+}
+@keyframes metroRadarPulse {
+  0% { transform: scale(0.4); opacity: 0.95; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Metro Station Markers */
+.metro-station-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 2.5px solid #8B5CF6;
+  box-shadow: 0 0 8px rgba(139,92,246,0.6);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+.metro-station-dot.aqua-station {
+  border-color: #06B6D4;
+  box-shadow: 0 0 8px rgba(6,182,212,0.6);
+}
+.metro-station-dot:hover {
+  transform: scale(1.6);
+  background: #ffffff;
+}
+
+.metro-interchange-dot {
+  width: 16px;
+  height: 16px;
+  background: #F59E0B;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 14px rgba(245,158,11,0.9);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.metro-interchange-dot:hover {
+  transform: rotate(45deg) scale(1.5);
+}
+
+/* Mode Filter Bar inside Sidebar */
+.sb-mode-filter {
+  display: flex;
+  gap: 6px;
+  padding: 10px 18px 8px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.sb-mode-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Outfit', sans-serif;
+}
+.sb-mode-btn:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+.sb-mode-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(108,99,255,0.35);
+}
+
+/* Layer Control Chips Overlay */
+.map-layer-toggles {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  pointer-events: auto;
+}
+.ml-chip {
+  background: rgba(13,17,32,0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 30px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  user-select: none;
+  font-family: 'Outfit', sans-serif;
+}
+.ml-chip:hover {
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+}
+.ml-chip.active-purple {
+  background: rgba(139,92,246,0.22);
+  border-color: #8B5CF6;
+  color: #DDD6FE;
+}
+.ml-chip.active-aqua {
+  background: rgba(6,182,212,0.22);
+  border-color: #06B6D4;
+  color: #A5F3FC;
 }
 
 /* ── My Location Marker ──────────────────────────────────── */
@@ -428,7 +614,7 @@ body.map-page {
 /* ── Stats Bar ───────────────────────────────────────────── */
 .map-stats-bar {
   position: absolute;
-  bottom: 16px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;

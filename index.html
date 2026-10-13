@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TransitGo — Smart Public Transport for Pune</title>
-  <meta name="description" content="TransitGo makes public transport smarter. Real-time bus tracking, digital ticketing, and route planning for Pune's PMPML buses." />
+  <title>TransitGo — Smart Public Transport for Pune (PMPML &amp; Pune Metro)</title>
+  <meta name="description" content="TransitGo is Pune's smart multimodal public transit platform. Live GPS bus & metro tracking, instant UPI QR ticketing, route planning, timetables, and delay alerts." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script src="js/theme.js"></script>
 </head>
@@ -71,177 +71,318 @@
     </div>
 
     <div class="hero-container">
+      <!-- Left Column: Value Prop & Quick Search -->
       <div class="hero-content">
         <div class="hero-badge">
           <span class="badge-dot"></span>
-          Built for Pune &middot; PMPML &amp; Pune Metro Smart Transit
+          LIVE · PMPML Buses &amp; Pune Metro Integrated
         </div>
 
         <h1 class="hero-title">
-          Your City's Transit,
-          <span class="gradient-text">Finally Smart.</span>
+          Pune's Unified Transit,
+          <span class="gradient-text">Live &amp; Paperless.</span>
         </h1>
 
         <p class="hero-subtitle">
-          No more guessing. TransitGo gives you <strong>real-time bus &amp; metro tracking</strong>,
-          <strong>instant digital tickets</strong>, and <strong>live delay alerts</strong>
-          right on your phone. Travel smarter, stress less.
+          No more guessing or cash queues. Track every <strong>PMPML bus</strong> and <strong>Pune Metro train</strong> in real-time, navigate transfers across 50+ Pune stops, and book instant <strong>QR tickets with UPI</strong>.
         </p>
 
+        <!-- Quick Transit Finder Widget -->
+        <div class="hero-quick-search-box">
+          <div class="hqs-title">
+            <span>⚡</span> Quick Route &amp; Fare Finder
+          </div>
+          <form class="hqs-form" id="heroQuickForm" onsubmit="handleHeroSearch(event)">
+            <div class="hqs-select-wrap">
+              <select class="hqs-select" id="heroFromSelect" aria-label="From stop">
+                <option value="Swargate">From: Swargate</option>
+                <option value="Katraj">From: Katraj</option>
+                <option value="Shivajinagar">From: Shivajinagar</option>
+                <option value="Deccan Gymkhana">From: Deccan Gymkhana</option>
+                <option value="PCMC Metro">From: PCMC Metro (Purple Line)</option>
+                <option value="Vanaz Metro">From: Vanaz Metro (Aqua Line)</option>
+                <option value="Wakad">From: Wakad</option>
+                <option value="Hadapsar">From: Hadapsar</option>
+              </select>
+            </div>
+            <div class="hqs-select-wrap">
+              <select class="hqs-select" id="heroToSelect" aria-label="To stop">
+                <option value="Hadapsar">To: Hadapsar</option>
+                <option value="Kothrud">To: Kothrud</option>
+                <option value="Swargate Metro">To: Swargate Metro</option>
+                <option value="Ramwadi Metro">To: Ramwadi Metro</option>
+                <option value="Pune Station">To: Pune Station</option>
+                <option value="Swargate">To: Swargate</option>
+                <option value="Shivajinagar">To: Shivajinagar</option>
+              </select>
+            </div>
+            <button type="submit" class="hqs-submit-btn">
+              <span>Find Routes</span> ➔
+            </button>
+          </form>
+          <div class="hqs-quick-chips">
+            <span style="font-size:10px;color:var(--text-dim);font-weight:700">POPULAR:</span>
+            <a href="route-search.html?from=Katraj&to=Hadapsar" class="hqs-chip">Katraj → Hadapsar 🚌</a>
+            <a href="route-search.html?from=PCMC+Metro&to=Swargate+Metro" class="hqs-chip">PCMC → Swargate 🚇</a>
+            <a href="route-search.html?from=Vanaz+Metro&to=Ramwadi+Metro" class="hqs-chip">Vanaz → Ramwadi 🚇</a>
+            <a href="route-search.html?from=Shivajinagar&to=Swargate" class="hqs-chip">Shivaji. → Swargate 🚌</a>
+          </div>
+        </div>
+
         <div class="hero-actions">
-          <a href="route-search.html" class="btn-primary" id="hero-cta-primary">
-            Search Routes 🔍
+          <a href="live-track.html" class="btn-primary" id="hero-cta-primary">
+            🗺️ Open Live Map
           </a>
-          <a href="live-track.html" class="btn-secondary" id="hero-cta-secondary">
-            🗺️ Live Map
+          <a href="booking.html" class="btn-secondary" id="hero-cta-secondary">
+            🎫 Book QR Ticket
           </a>
         </div>
 
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-num">50K+</span>
-            <span class="stat-label">Daily Commuters</span>
+            <span class="stat-num">17+</span>
+            <span class="stat-label">Bus &amp; Metro Routes</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-num">120+</span>
-            <span class="stat-label">PMPML Routes</span>
+            <span class="stat-num">2 Lines</span>
+            <span class="stat-label">Pune Metro (Purple/Aqua)</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-num">30s</span>
-            <span class="stat-label">Avg. Alert Time</span>
+            <span class="stat-num">50+</span>
+            <span class="stat-label">Pune Stops &amp; Hubs</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Paperless UPI QR</span>
           </div>
         </div>
       </div>
 
+      <!-- Right Column: Interactive Multimodal Console (Full-scale Dashboard) -->
       <div class="hero-visual">
-        <div class="phone-mockup">
-          <div class="phone-frame">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div class="app-header">
-                <div class="app-header-left">
-                  <div class="app-avatar">SB</div>
+        <div class="hero-console-wrap">
+
+          <!-- Floating holographic glass badges -->
+          <div class="console-float-badge cfb-top-right">
+            <span>🟣</span> Line 1 &amp; Line 2 Active
+          </div>
+          <div class="console-float-badge cfb-bottom-left">
+            <span>⚡</span> Civil Court Interchange Live
+          </div>
+
+          <!-- Console Main Frame -->
+          <div class="hero-console">
+
+            <!-- Console Header -->
+            <div class="hc-header">
+              <div class="hc-brand">
+                <div class="hc-avatar">SB</div>
+                <div>
+                  <div class="hc-status-title">Pune Transit Control</div>
+                  <div class="hc-status-sub">
+                    <span class="hc-gps-dot"></span> Live Telemetry Active
+                  </div>
+                </div>
+              </div>
+              <div class="hc-telemetry">
+                <span>12 VEHICLES LIVE</span>
+              </div>
+            </div>
+
+            <!-- Mode Switcher Tabs -->
+            <div class="hc-tabs" id="consoleModeTabs">
+              <button type="button" class="hc-tab active" data-tab="all" onclick="switchConsoleTab('all')">
+                🚦 All Transit
+              </button>
+              <button type="button" class="hc-tab" data-tab="metro" onclick="switchConsoleTab('metro')">
+                🚇 Metro
+              </button>
+              <button type="button" class="hc-tab" data-tab="bus" onclick="switchConsoleTab('bus')">
+                🚌 Buses
+              </button>
+              <button type="button" class="hc-tab" data-tab="ticket" onclick="switchConsoleTab('ticket')">
+                🎫 E-Pass
+              </button>
+            </div>
+
+            <!-- Console Live Feed Items -->
+            <div class="hc-body" id="consoleFeed">
+
+              <!-- Metro Line 1 Card -->
+              <a href="live-track.html" class="transit-preview-card" data-mode="metro" style="border-left: 3px solid #8B5CF6;">
+                <div class="tpc-badge" style="background:rgba(139,92,246,0.18);border-color:#8B5CF6;color:#8B5CF6">
+                  <span>🚇</span>
+                  <span class="tpc-badge-sub">M1</span>
+                </div>
+                <div class="tpc-info">
+                  <div class="tpc-route">Purple Line · PCMC ↔ Swargate</div>
+                  <div class="tpc-sub">
+                    <span style="color:#C4B5FD">Next: Khadki Metro</span>
+                    <span class="tpc-sub-dot"></span>
+                    <span>❄️ AC</span>
+                  </div>
+                </div>
+                <div class="tpc-right">
+                  <div class="tpc-eta" style="color:#8B5CF6">2 min</div>
+                  <div class="tpc-meta">Every 8m</div>
+                </div>
+              </a>
+
+              <!-- Metro Line 2 Card -->
+              <a href="live-track.html" class="transit-preview-card" data-mode="metro" style="border-left: 3px solid #06B6D4;">
+                <div class="tpc-badge" style="background:rgba(6,182,212,0.18);border-color:#06B6D4;color:#06B6D4">
+                  <span>🚇</span>
+                  <span class="tpc-badge-sub">M2</span>
+                </div>
+                <div class="tpc-info">
+                  <div class="tpc-route">Aqua Line · Vanaz ↔ Ramwadi</div>
+                  <div class="tpc-sub">
+                    <span style="color:#A5F3FC">Next: Deccan Gymkhana</span>
+                    <span class="tpc-sub-dot"></span>
+                    <span>Civil Court ✕</span>
+                  </div>
+                </div>
+                <div class="tpc-right">
+                  <div class="tpc-eta" style="color:#06B6D4">3 min</div>
+                  <div class="tpc-meta">Every 8m</div>
+                </div>
+              </a>
+
+              <!-- PMPML Bus 15 Card -->
+              <a href="live-track.html" class="transit-preview-card" data-mode="bus" style="border-left: 3px solid #6C63FF;">
+                <div class="tpc-badge" style="background:rgba(108,99,255,0.18);border-color:#6C63FF;color:#6C63FF">
+                  <span>🚌</span>
+                  <span class="tpc-badge-sub">15</span>
+                </div>
+                <div class="tpc-info">
+                  <div class="tpc-route">Route 15 · Katraj ↔ Hadapsar</div>
+                  <div class="tpc-sub">
+                    <span>Near Swargate</span>
+                    <span class="tpc-sub-dot"></span>
+                    <span style="color:#43e97b">🟢 42% Load</span>
+                  </div>
+                </div>
+                <div class="tpc-right">
+                  <div class="tpc-eta">3 min</div>
+                  <div class="tpc-meta">₹14 fare</div>
+                </div>
+              </a>
+
+              <!-- PMPML Bus 72A Card -->
+              <a href="live-track.html" class="transit-preview-card" data-mode="bus" style="border-left: 3px solid #f5576c;">
+                <div class="tpc-badge" style="background:rgba(245,87,108,0.18);border-color:#f5576c;color:#f5576c">
+                  <span>🚌</span>
+                  <span class="tpc-badge-sub">72A</span>
+                </div>
+                <div class="tpc-info">
+                  <div class="tpc-route">Route 72A · Deccan ↔ Kothrud</div>
+                  <div class="tpc-sub">
+                    <span>Near FC Road</span>
+                    <span class="tpc-sub-dot"></span>
+                    <span style="color:#fee140">🟡 65% Load</span>
+                  </div>
+                </div>
+                <div class="tpc-right">
+                  <div class="tpc-eta">6 min</div>
+                  <div class="tpc-meta">₹10 fare</div>
+                </div>
+              </a>
+
+              <!-- Mini Digital Ticket Pass Card -->
+              <div class="hc-mini-ticket" data-mode="ticket">
+                <div class="hmt-left">
+                  <div class="hmt-qr-icon">📱</div>
                   <div>
-                    <div class="app-greeting">Good morning</div>
-                    <div class="app-name">Shreyash</div>
+                    <div class="hmt-title">E-Ticket Ready: Katraj → Hadapsar</div>
+                    <div class="hmt-sub">TXN-849201 · ₹14 UPI Paid · Show QR at boarding</div>
                   </div>
                 </div>
-                <div class="app-notif">
-                  <div class="notif-dot"></div>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" fill="white"/>
-                  </svg>
-                </div>
+                <a href="booking.html?route=15" class="hmt-btn">Book Now</a>
               </div>
 
-              <div class="app-search-bar">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#888"/>
-                </svg>
-                <span>Search routes, stops...</span>
-              </div>
-
-              <div class="app-map-area">
-                <div class="map-road map-h" style="top:38%;"></div>
-                <div class="map-road map-h" style="top:65%;"></div>
-                <div class="map-road map-v" style="left:28%;"></div>
-                <div class="map-road map-v" style="left:58%;"></div>
-                <div class="map-road map-v" style="left:78%;"></div>
-                <div class="bus-pin" id="bus1" style="top:34%;left:22%;">
-                  <div class="bus-emoji">&#128652;</div>
-                  <div class="bus-tag">15</div>
-                </div>
-                <div class="bus-pin" id="bus2" style="top:60%;left:52%;">
-                  <div class="bus-emoji">&#128652;</div>
-                  <div class="bus-tag" style="background:#f5576c;">72A</div>
-                </div>
-                <div class="my-loc" style="top:42%;left:42%;">
-                  <div class="my-pulse"></div>
-                  <div class="my-dot"></div>
-                </div>
-                <div class="dest-marker" style="top:25%;left:70%;">&#128205;</div>
-              </div>
-
-              <div class="nearby-section">
-                <div class="nearby-label">Nearby Buses</div>
-                <div class="bus-row">
-                  <div class="br-num">15</div>
-                  <div class="br-info">
-                    <div class="br-route">Katraj to Hadapsar</div>
-                    <div class="br-stop">Via Swargate</div>
-                  </div>
-                  <div class="br-eta">3 min</div>
-                </div>
-                <div class="bus-row">
-                  <div class="br-num" style="background:linear-gradient(135deg,#f093fb,#f5576c);">72A</div>
-                  <div class="br-info">
-                    <div class="br-route">Deccan to Kothrud</div>
-                    <div class="br-stop">Via FC Road</div>
-                  </div>
-                  <div class="br-eta">8 min</div>
-                </div>
-              </div>
             </div>
+
+            <!-- Console Quick Actions Footer -->
+            <div class="hc-footer">
+              <a href="live-track.html" class="hc-action-btn">
+                <span>🗺️</span> View Live Map
+              </a>
+              <a href="route-search.html" class="hc-action-btn">
+                <span>🔍</span> All Routes
+              </a>
+              <a href="timetable.html" class="hc-action-btn">
+                <span>📅</span> Timetable
+              </a>
+            </div>
+
           </div>
 
-          <div class="float-card fc1">
-            <span class="fc-emoji">&#127867;</span>
-            <div>
-              <div class="fc-title">Ticket Booked!</div>
-              <div class="fc-sub">Route 15 &middot; Rs.12</div>
-            </div>
-          </div>
-          <div class="float-card fc2">
-            <span class="fc-emoji">&#9889;</span>
-            <div>
-              <div class="fc-title">Bus arriving</div>
-              <div class="fc-sub">3 minutes away</div>
-            </div>
-          </div>
-          <div class="float-card fc3">
-            <span class="fc-emoji">&#128179;</span>
-            <div>
-              <div class="fc-title">UPI Payment</div>
-              <div class="fc-sub">Instant &middot; Secure</div>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-
-    <div class="scroll-hint">
-      <span>Scroll to explore</span>
-      <div class="scroll-arrow">&#8595;</div>
     </div>
   </section>
+
+  <!-- LIVE SYSTEM STATUS TICKER STRIP -->
+  <div class="status-ticker-wrap">
+    <div class="status-ticker">
+      <div class="ticker-item">
+        <span class="ticker-dot td-green"></span>
+        <span>NETWORK STATUS: <strong>100% OPERATIONAL</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-dot td-purple"></span>
+        <span>PUNE METRO LINE 1: <strong>PCMC ↔ Swargate Operating (Every 8m)</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-dot td-aqua"></span>
+        <span>PUNE METRO LINE 2: <strong>Vanaz ↔ Ramwadi Operating (Every 8m)</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-dot td-orange"></span>
+        <span>INTERCHANGE: <strong>Civil Court Station Fully Connected</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-dot td-green"></span>
+        <span>PMPML FLEET: <strong>120+ Corridors Tracking Live with GPS</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-dot td-purple"></span>
+        <span>TICKETING: <strong>Instant UPI QR Digital Passes Active</strong></span>
+      </div>
+    </div>
+  </div>
+
 
   <!-- PROBLEM SECTION -->
   <section class="problem-section" id="problem">
     <div class="section-container">
-      <div class="section-label">The Problem We're Solving</div>
+      <div class="section-label">The Problem We Solved</div>
       <h2 class="section-title">Every Pune commuter knows this <span class="gradient-text">frustration.</span></h2>
+      <p class="section-sub">Born from direct commuter interviews and empathy mapping at Swargate, Katraj, and Deccan bus stops.</p>
+
       <div class="pain-grid">
         <div class="pain-card">
-          <div class="pain-emoji">&#128544;</div>
+          <div class="pain-emoji">😠</div>
           <h3>No Live Tracking</h3>
-          <p>You have no idea where the bus actually is. You just wait and wait and wait.</p>
+          <p>Commuters stood at stops with zero info on where their bus was or when it would reach.</p>
         </div>
         <div class="pain-card">
-          <div class="pain-emoji">&#128336;</div>
+          <div class="pain-emoji">⏱️</div>
           <h3>Unpredictable Delays</h3>
-          <p>Bus says 9:15 AM. It comes at 9:47 AM. No updates. No alerts. Just missed class.</p>
+          <p>Buses scheduled for 9:15 AM arriving at 9:45 AM with no warning, causing missed lectures and shifts.</p>
         </div>
         <div class="pain-card">
-          <div class="pain-emoji">&#128552;</div>
-          <h3>Overcrowded Buses</h3>
-          <p>You squeeze in hoping for space. No way to know if the next bus will be less crowded.</p>
+          <div class="pain-emoji">👥</div>
+          <h3>Severe Overcrowding</h3>
+          <p>No way to know passenger loads in advance, forcing riders into packed buses instead of waiting 5 min for an empty one.</p>
         </div>
         <div class="pain-card">
-          <div class="pain-emoji">&#128184;</div>
-          <h3>Paper Tickets and Cash</h3>
-          <p>Standing in line for tokens. Carrying exact change. It is 2025. Why is this still a thing?</p>
+          <div class="pain-emoji">💸</div>
+          <h3>Cash &amp; Paper Inconvenience</h3>
+          <p>Carrying exact coins, standing in token lines, and losing paper slips in 2025.</p>
         </div>
       </div>
     </div>
@@ -251,140 +392,172 @@
   <section class="how-section" id="how-it-works">
     <div class="section-container">
       <div class="section-label">How TransitGo Works</div>
-      <h2 class="section-title">Built from real <span class="gradient-text">user research.</span></h2>
-      <p class="section-sub">Every feature comes directly from interviews and empathy mapping of real PMPML commuters in Pune.</p>
+      <h2 class="section-title">Unified transit in <span class="gradient-text">4 simple steps.</span></h2>
+      <p class="section-sub">A seamless companion built for daily commuters, students, and professionals across Pune.</p>
 
       <div class="steps-container">
         <div class="step-item">
           <div class="step-num">01</div>
           <div class="step-content">
-            <h3>Search Your Route</h3>
-            <p>Enter your start and destination. Get all bus options with live timing, fare, and route info in seconds.</p>
+            <h3>Search Any Route</h3>
+            <p>Enter your origin and destination. Get intelligent bus and Pune Metro options with calculated fares, intermediate stops, and total duration.</p>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">02</div>
           <div class="step-content">
-            <h3>Track in Real-Time</h3>
-            <p>See exactly where your bus is on a live map. Get a notification when it is 2 stops away so you are never late.</p>
+            <h3>Live GPS &amp; Metro Map</h3>
+            <p>Watch moving buses and metro trains live on an interactive Leaflet map with pulsing radar beacons, line filters, and accurate ETAs.</p>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">03</div>
           <div class="step-content">
-            <h3>Book and Pay Digitally</h3>
-            <p>Reserve your seat and pay with UPI or card. No tokens, no cash, no queues. Just scan and board.</p>
+            <h3>Instant UPI E-Tickets</h3>
+            <p>Book digital tickets in 3 steps, pay via UPI or card, and generate an interactive 3D boarding pass with scannable QR security code.</p>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">04</div>
           <div class="step-content">
-            <h3>Get Smart Alerts</h3>
-            <p>Instant notifications for delays, cancellations, and route changes. Know before you leave home.</p>
+            <h3>Disruption &amp; Crowd Alerts</h3>
+            <p>Stay ahead with real-time delay warnings, road repair alerts, and 24-hour AI crowd forecasts modeled on Pune rush hours.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
+  <!-- LIVE FEATURES SHOWCASE -->
   <section class="features-section" id="features">
     <div class="section-container">
-      <div class="section-label">Product Features</div>
+      <div class="section-label">Platform Modules</div>
       <h2 class="section-title">Everything a commuter <span class="gradient-text">actually needs.</span></h2>
+      <p class="section-sub">All modules are live, operational, and accessible right now across our web application.</p>
 
       <div class="features-grid">
+
+        <!-- Module 1: Live Map -->
         <div class="feature-card fc-large" style="cursor:pointer" onclick="location.href='live-track.html'">
-          <div class="feature-icon fi-purple">&#128205;</div>
-          <h3>Live Bus Tracking</h3>
-          <p>Real-time GPS tracking of every PMPML bus on an interactive map. Know exactly when your bus arrives.</p>
-          <div class="feature-tag ft-mvp">Core MVP · <a href="live-track.html" style="color:inherit">Open Map →</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-purple">🗺️</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>Live Bus &amp; Metro Tracking</h3>
+          <p>Real-time GPS tracking of PMPML buses plus Pune Metro Line 1 (Purple) &amp; Line 2 (Aqua) on an interactive Leaflet map with radar beacons, route polylines, and station toggles.</p>
+          <div class="feature-tag ft-mvp">Explore Live Map →</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-pink">&#127867;</div>
-          <h3>Digital Ticketing</h3>
-          <p>Book tickets with UPI, pay via QR. No physical tokens ever again.</p>
-          <div class="feature-tag ft-inc">Increment 3</div>
-        </div>
+
+        <!-- Module 2: Route Search -->
         <div class="feature-card" style="cursor:pointer" onclick="location.href='route-search.html'">
-          <div class="feature-icon fi-blue">&#128269;</div>
-          <h3>Route Search</h3>
-          <p>Search any source to destination. See all bus options with estimated time and fare.</p>
-          <div class="feature-tag ft-mvp">Increment 1 · <a href="route-search.html" style="color:inherit">Try it →</a></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-blue">🔍</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>Multi-Modal Route Finder</h3>
+          <p>Search between 50+ Pune stops. Filter by Bus or Metro with sub-segment fares, transfer points, and frequencies.</p>
+          <div class="feature-tag ft-mvp">Find Routes Now →</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-green">&#128276;</div>
-          <h3>Smart Alerts</h3>
-          <p>Push notifications for delays, cancellations, and schedule changes. Stay ahead always.</p>
-          <div class="feature-tag ft-inc">Increment 4</div>
+
+        <!-- Module 3: Digital Ticketing -->
+        <div class="feature-card" style="cursor:pointer" onclick="location.href='booking.html'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-pink">🎫</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>Instant UPI Digital Ticketing</h3>
+          <p>3-step paperless booking wizard. Pay with UPI, generate 3D flippable digital boarding pass with scannable QR pass.</p>
+          <div class="feature-tag ft-mvp">Book E-Ticket →</div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-orange">&#128101;</div>
-          <h3>Crowd Prediction</h3>
-          <p>AI-based crowding forecast so you choose the least packed bus for your commute.</p>
-          <div class="feature-tag ft-inc">Increment 5</div>
+
+        <!-- Module 4: Departure Timetable -->
+        <div class="feature-card" style="cursor:pointer" onclick="location.href='timetable.html'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-teal">📅</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>Transit Timetables &amp; Stops</h3>
+          <p>Complete departure schedule generation for all 17 routes. Stop timelines with minute offsets and next trip warnings.</p>
+          <div class="feature-tag ft-mvp">View Timetables →</div>
         </div>
-        <div class="feature-card fc-large fc-glow">
-          <div class="feature-icon fi-teal">&#127760;</div>
-          <h3>Multi-Modal Trip Planner</h3>
-          <p>Complete journey planning combining buses, transfers, and walking routes for any destination in Pune.</p>
-          <div class="feature-tag ft-soon">Coming Soon</div>
+
+        <!-- Module 5: Real-time Alerts -->
+        <div class="feature-card" style="cursor:pointer" onclick="location.href='alerts.html'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-green">🔔</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>Live Delay &amp; Service Alerts</h3>
+          <p>Instant notifications for traffic bottlenecks, cancellations, and route diversions across PMPML and Metro corridors.</p>
+          <div class="feature-tag ft-mvp">Check Live Alerts →</div>
         </div>
+
+        <!-- Module 6: AI Crowd Prediction -->
+        <div class="feature-card fc-large fc-glow" style="cursor:pointer" onclick="location.href='alerts.html'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="feature-icon fi-orange">👥</div>
+            <span class="ft-live-badge"><span class="ft-live-dot"></span> LIVE IN APP</span>
+          </div>
+          <h3>AI Crowd Ridership Predictor</h3>
+          <p>Time-aware ridership forecast model trained on Pune commuter trends (8–10 AM &amp; 5–8 PM rush). Hourly bar charts to pick the least crowded ride.</p>
+          <div class="feature-tag ft-mvp">View Crowd Forecast →</div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ROADMAP -->
+  <!-- ROADMAP (INCREMENTAL DEVELOPMENT MODEL) -->
   <section class="roadmap-section" id="roadmap">
     <div class="section-container">
-      <div class="section-label">Product Roadmap</div>
-      <h2 class="section-title">Built <span class="gradient-text">incrementally.</span></h2>
-      <p class="section-sub">Following the Incremental Development Model — each version delivers real value to commuters.</p>
+      <div class="section-label">Product Lifecycle &amp; Delivery</div>
+      <h2 class="section-title">Built with the <span class="gradient-text">Incremental Model.</span></h2>
+      <p class="section-sub">Following Agile methodology — each increment was developed, integrated, and deployed with working user value.</p>
 
       <div class="roadmap-track">
         <div class="roadmap-item ri-done">
           <div class="ri-dot rd-done"></div>
           <div class="ri-card">
-            <div class="ri-phase">Phase 1 &middot; Now</div>
-            <h3>Route Search and Schedules</h3>
-            <p>Find your bus, see timetables, plan your journey.</p>
-            <div class="ri-badge rb-done">MVP Ready</div>
+            <div class="ri-phase">Increment 1 · Completed</div>
+            <h3>Route Search &amp; Master Dataset</h3>
+            <p>50+ Pune stops, PMPML catalog, smart autocomplete, and segment fare calculation.</p>
+            <div class="ri-badge rb-done">✅ Live &amp; Tested</div>
           </div>
         </div>
-        <div class="roadmap-item ri-current">
-          <div class="ri-dot rd-current"></div>
-          <div class="ri-card ri-card-active">
-            <div class="ri-phase">Phase 2 &middot; In Progress</div>
-            <h3>Live Vehicle Tracking</h3>
-            <p>Real-time GPS location of every PMPML bus on the map.</p>
-            <div class="ri-badge rb-active">In Development</div>
-          </div>
-        </div>
-        <div class="roadmap-item">
-          <div class="ri-dot rd-plan"></div>
+        <div class="roadmap-item ri-done">
+          <div class="ri-dot rd-done"></div>
           <div class="ri-card">
-            <div class="ri-phase">Phase 3</div>
-            <h3>Digital Ticketing and Payments</h3>
-            <p>UPI-based ticket booking. No cash, no queues.</p>
-            <div class="ri-badge rb-plan">Planned</div>
+            <div class="ri-phase">Increment 2 · Completed</div>
+            <h3>GPS Tracking &amp; Pune Metro Integration</h3>
+            <p>Leaflet map, moving bus simulation, Pune Metro Line 1 &amp; 2 polylines, Civil Court interchange.</p>
+            <div class="ri-badge rb-done">✅ Live &amp; Tested</div>
           </div>
         </div>
-        <div class="roadmap-item">
-          <div class="ri-dot rd-plan"></div>
+        <div class="roadmap-item ri-done">
+          <div class="ri-dot rd-done"></div>
           <div class="ri-card">
-            <div class="ri-phase">Phase 4</div>
-            <h3>Delay and Service Alerts</h3>
-            <p>Smart push notifications for real-time disruptions.</p>
-            <div class="ri-badge rb-plan">Planned</div>
+            <div class="ri-phase">Increment 3 · Completed</div>
+            <h3>Digital QR Ticketing &amp; UPI</h3>
+            <p>3-step wizard, simulated payment gateway, 3D holographic boarding pass with QR codes.</p>
+            <div class="ri-badge rb-done">✅ Live &amp; Tested</div>
           </div>
         </div>
-        <div class="roadmap-item">
-          <div class="ri-dot rd-plan"></div>
+        <div class="roadmap-item ri-done">
+          <div class="ri-dot rd-done"></div>
           <div class="ri-card">
-            <div class="ri-phase">Phase 5</div>
-            <h3>AI Crowd Prediction</h3>
-            <p>ML-powered crowding forecast for smarter travel choices.</p>
-            <div class="ri-badge rb-plan">Planned</div>
+            <div class="ri-phase">Increment 4 · Completed</div>
+            <h3>Real-Time Service Alerts</h3>
+            <p>Disruption engine simulating delays, road closures, cancellations, and capacity notices.</p>
+            <div class="ri-badge rb-done">✅ Live &amp; Tested</div>
+          </div>
+        </div>
+        <div class="roadmap-item ri-done">
+          <div class="ri-dot rd-done"></div>
+          <div class="ri-card">
+            <div class="ri-phase">Increment 5 · Completed</div>
+            <h3>AI Crowd Prediction Model</h3>
+            <p>Hourly ridership patterns, per-route load modifiers, and smart travel recommendations.</p>
+            <div class="ri-badge rb-done">✅ Live &amp; Tested</div>
           </div>
         </div>
       </div>
@@ -396,18 +569,18 @@
     <div class="section-container">
       <div class="section-label">The Team</div>
       <h2 class="section-title">Students solving <span class="gradient-text">real problems.</span></h2>
-      <p class="section-sub">CSAI-A &middot; Batch 2 &middot; VIT &middot; DTPLM Course Project</p>
+      <p class="section-sub">CSAI-A · Batch 2 · VIT · DTPLM Course Project (2025–26)</p>
       <div class="team-grid">
         <div class="team-card">
           <div class="team-avatar ta-purple">SB</div>
           <div class="team-name">Shreyash Bhalerao</div>
-          <div class="team-role">Product Lead and Research</div>
+          <div class="team-role">Product Lead &amp; Research</div>
           <div class="team-roll">Roll No. 45</div>
         </div>
         <div class="team-card">
           <div class="team-avatar ta-pink">S</div>
           <div class="team-name">Sarvesh</div>
-          <div class="team-role">UX and Ideation</div>
+          <div class="team-role">UX &amp; Ideation</div>
           <div class="team-roll">Batch 2</div>
         </div>
         <div class="team-card">
@@ -419,7 +592,7 @@
         <div class="team-card">
           <div class="team-avatar ta-green">A</div>
           <div class="team-name">Aditya</div>
-          <div class="team-role">Business and Strategy</div>
+          <div class="team-role">Business &amp; Strategy</div>
           <div class="team-roll">Batch 2</div>
         </div>
       </div>
@@ -434,17 +607,21 @@
     </div>
     <div class="section-container">
       <div class="cta-content">
-        <div class="cta-badge-chip">&#128652; Coming to Pune Soon</div>
-        <h2>Ready to travel smarter?</h2>
-        <p>Join the waitlist and be the first to experience TransitGo when we launch.</p>
+        <div class="cta-badge-chip">🚀 Ready for Pune Commuters</div>
+        <h2>Experience Smart Public Transit Today</h2>
+        <p>No downloads required. Jump straight into the live map, search routes, or book digital tickets directly on your browser.</p>
+        <div class="hero-actions" style="justify-content:center;margin-bottom:32px">
+          <a href="live-track.html" class="btn-primary">🗺️ Open Live Map</a>
+          <a href="route-search.html" class="btn-secondary">🔍 Search Routes</a>
+          <a href="booking.html" class="btn-secondary">🎫 Book Ticket</a>
+        </div>
         <div class="cta-form">
-          <input type="email" id="email-input" placeholder="Enter your email address" class="cta-input" />
-          <button class="cta-btn" id="waitlist-btn" onclick="handleWaitlist()">Join Waitlist</button>
+          <input type="email" id="email-input" placeholder="Enter email for Android &amp; iOS app updates" class="cta-input" />
+          <button class="cta-btn" id="waitlist-btn" onclick="handleWaitlist()">Get App Updates</button>
         </div>
         <div class="cta-success" id="cta-success">
-          You are on the list! We will notify you at launch.
+          You are on the list! We will notify you when native mobile apps launch.
         </div>
-        <div class="cta-note">No spam. Just a launch notification. Promise.</div>
       </div>
     </div>
   </section>
@@ -468,21 +645,51 @@
           </div>
           <span class="logo-text">TransitGo</span>
         </div>
-        <p>Making public transport smarter for every commuter in Pune.</p>
+        <p>Making public transport smarter, faster, and paperless for every commuter in Pune.</p>
       </div>
       <div class="footer-tags">
         <div class="footer-tag">DTPLM Course Project</div>
-        <div class="footer-tag">VIT &middot; CSAI-A &middot; Batch 2</div>
-        <div class="footer-tag">2025-26</div>
+        <div class="footer-tag">VIT · CSAI-A · Batch 2</div>
+        <div class="footer-tag">2025–26</div>
       </div>
     </div>
     <div class="footer-bottom">
-      Built with love by Team TransitGo &middot; VIT DTPLM 2025
+      Built with pride by Team TransitGo · VIT DTPLM 2025–26
     </div>
   </footer>
 
   <script src="script.js"></script>
   <script>
+    // Console tab switcher logic
+    function switchConsoleTab(mode) {
+      document.querySelectorAll('#consoleModeTabs .hc-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-tab') === mode);
+      });
+
+      const cards = document.querySelectorAll('#consoleFeed [data-mode]');
+      cards.forEach(c => {
+        const m = c.getAttribute('data-mode');
+        if (mode === 'all') {
+          c.style.display = (m === 'ticket') ? 'none' : 'flex';
+        } else if (mode === 'ticket') {
+          c.style.display = (m === 'ticket') ? 'flex' : 'none';
+        } else {
+          c.style.display = (m === mode) ? 'flex' : 'none';
+        }
+      });
+    }
+
+    // Default console tab setup
+    switchConsoleTab('all');
+
+    // Quick Search handler
+    function handleHeroSearch(e) {
+      e.preventDefault();
+      const from = document.getElementById('heroFromSelect').value;
+      const to   = document.getElementById('heroToSelect').value;
+      window.location.href = `route-search.html?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+    }
+
     // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -492,7 +699,6 @@
       hamburger.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-    // Close menu on link click
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         mobileMenu.classList.remove('open');

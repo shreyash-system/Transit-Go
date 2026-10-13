@@ -1232,3 +1232,457 @@ body { animation: pageFadeIn 0.45s ease both; }
   border-color: rgba(82, 71, 230, 0.2);
 }
 
+/* ============================================================
+   TRANSITGO — HERO MULTIMODAL DASHBOARD & CONSOLE STYLES
+   ============================================================ */
+
+/* ── Live System Status Ticker ── */
+.status-ticker-wrap {
+  width: 100%;
+  background: rgba(13, 17, 32, 0.85);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+}
+.status-ticker {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 12px 24px;
+  max-width: 1240px;
+  margin: 0 auto;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.status-ticker::-webkit-scrollbar { display: none; }
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.ticker-item strong { color: var(--text); }
+.ticker-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.td-green  { background: #43e97b; box-shadow: 0 0 8px #43e97b; animation: blink 1.8s infinite; }
+.td-purple { background: #8B5CF6; box-shadow: 0 0 8px #8B5CF6; }
+.td-aqua   { background: #06B6D4; box-shadow: 0 0 8px #06B6D4; }
+.td-orange { background: #F59E0B; box-shadow: 0 0 8px #F59E0B; }
+
+/* ── Hero Multimodal Console (Replaces old narrow phone) ── */
+.hero-console-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.hero-console {
+  background: rgba(13, 17, 32, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-console:hover {
+  box-shadow: 0 36px 90px rgba(108, 99, 255, 0.25), 0 0 0 1px rgba(108, 99, 255, 0.3);
+}
+
+/* Console Header */
+.hc-header {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+}
+.hc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hc-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.hc-status-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.hc-status-sub {
+  font-size: 10px;
+  color: #43e97b;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.hc-gps-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #43e97b;
+  animation: blink 1.5s infinite;
+}
+.hc-telemetry {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(62, 207, 207, 0.1);
+  border: 1px solid rgba(62, 207, 207, 0.25);
+  color: var(--accent);
+}
+
+/* Console Mode Switcher Tabs */
+.hc-tabs {
+  display: flex;
+  padding: 8px 12px;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border);
+}
+.hc-tab {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Outfit', sans-serif;
+}
+.hc-tab:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+.hc-tab.active {
+  background: var(--surface2);
+  border-color: var(--border2);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Console Live Content Area */
+.hc-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Transit Card inside Console */
+.transit-preview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.transit-preview-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(3px);
+}
+.tpc-badge {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+.tpc-badge-sub {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: -2px;
+}
+.tpc-info { flex: 1; min-width: 0; }
+.tpc-route {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tpc-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.tpc-sub-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-dim); }
+.tpc-right { text-align: right; flex-shrink: 0; }
+.tpc-eta {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.tpc-meta {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+/* Console Mini Ticket Preview */
+.hc-mini-ticket {
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.12), rgba(62, 207, 207, 0.08));
+  border: 1px dashed rgba(108, 99, 255, 0.4);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hmt-left { display: flex; align-items: center; gap: 10px; }
+.hmt-qr-icon {
+  width: 38px; height: 38px;
+  background: #ffffff;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #0d1120;
+}
+.hmt-title { font-size: 12px; font-weight: 700; color: #fff; }
+.hmt-sub { font-size: 10px; color: var(--text-muted); }
+.hmt-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Console Quick Actions Footer */
+.hc-footer {
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.15);
+}
+.hc-action-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.hc-action-btn:hover {
+  background: var(--surface2);
+  border-color: var(--primary);
+  color: var(--primary-light);
+}
+
+/* Floating holographic glass badges around console */
+.console-float-badge {
+  position: absolute;
+  background: rgba(13, 17, 32, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 8px 14px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 10;
+  animation: fcFloat 6s ease-in-out infinite;
+}
+.cfb-top-right {
+  top: -16px; right: -24px;
+  border-color: rgba(139, 92, 246, 0.4);
+  color: #DDD6FE;
+}
+.cfb-bottom-left {
+  bottom: -16px; left: -24px;
+  border-color: rgba(6, 182, 212, 0.4);
+  color: #A5F3FC;
+  animation-delay: -3s;
+}
+
+/* ── Hero Quick Search Widget (Inside Hero Left Column) ── */
+.hero-quick-search-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 28px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+}
+.hqs-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hqs-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hqs-select-wrap {
+  flex: 1;
+  min-width: 130px;
+  position: relative;
+}
+.hqs-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  outline: none;
+}
+.hqs-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+.hqs-submit-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.hqs-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
+}
+.hqs-quick-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.hqs-quick-chips::-webkit-scrollbar { display: none; }
+.hqs-chip {
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.hqs-chip:hover {
+  background: rgba(108, 99, 255, 0.15);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+/* ── Live Badge on Features ── */
+.ft-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(67, 233, 123, 0.12);
+  border: 1px solid rgba(67, 233, 123, 0.35);
+  color: #43e97b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 50px;
+}
+.ft-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #43e97b;
+  animation: blink 1.5s infinite;
+}
+
+/* Responsive console adjustments */
+@media (max-width: 992px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .console-float-badge { display: none; }
+}
+
+
